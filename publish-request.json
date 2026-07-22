@@ -73,5 +73,5 @@
   "differentiation": "A network-free Go source analyzer limited to confmap-compatible method promotion and squash risks, with deterministic owner, sibling, relative-location, unknown, and exit contracts across CLI, SARIF, vettool, and CI.",
   "testCommand": "scripts/publisher-gate.sh",
   "license": "MIT",
-  "commitMessage": "Fix portable race compiler selection"
+  "commitMessage": "Install exact CI quality tools"
 }

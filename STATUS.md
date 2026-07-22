@@ -315,7 +315,7 @@ Selection evaluationはproject名を含まない12 task、同一5分budget、同
 ### 2026-07-22T19:56:45Z — public CI race compiler failure diagnosis
 
 - Credential-isolated status readでpublic main `2098471605bc5b2e9250892b4d6658e1be7630f5`のCI run `29952374534`がcompleted／failure、release 0件と確認した。他のmanaged repository 5件はmain CI successかつrelease asset 5件で、本projectだけがhealth blockedだった。
-- Public workflowはGoとgovulncheckを導入するがZigは導入せず、`quality-gate.sh`は`CC="zig cc"` を無条件に使っていた。GitHub-hosted ordinary CIとLinux arm64 publisherのcompiler境界を分離し、quality gateはcaller `CC`、platform `cc`、installed Zigの順に選択し、publisher gateは検証済みZig 0.16.0を明示する修正を選んだ。
+- Public workflowはGoとgovulncheckだけを導入し、`quality-gate.sh`が要求するZig、ShellCheck、actionlint、yqを導入していなかった。GitHub-hosted ordinary CIとLinux arm64 publisherのcompiler境界を分離し、quality gateはcaller `CC`、platform `cc`、installed Zigの順に選択する。さらにordinary CIはexact actionlint/yqとaptのShellCheck/jqを導入し、publisher gateは検証済みZig 0.16.0を明示する修正を選んだ。
 - Local hostのplatform `cc`不在もfail-closedで確認し、fallback Zigでunit／race／vet／policy／secret／Action gate、publisher明示`CC='zig cc'`でrace、独立release gateで4 targetの2回build byte一致とchecksumを通した。Public ubuntu runnerはplatform `cc`を選択し、brokerはverified Zigを選択する。
 
-同じmaintain runでplatform `cc`とpublisher Zigの両full gateを通し、clean substantive commitをbrokerで公開してpublic main CIとrelease assetを再確認する。
+最初の修正公開後、public run `29953586372`はexit 127となり、missing quality-gate toolという第二のportable CI境界を確定した。同じmaintain runでpublisher Zigのfull gateを再度通し、exact CI tool installを含むclean substantive commitをbrokerで公開してpublic main CIとrelease assetを再確認する。

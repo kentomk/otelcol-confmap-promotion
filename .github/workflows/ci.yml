@@ -18,6 +18,12 @@ jobs:
           cache: true
       - name: Install exact vulnerability scanner
         run: go install golang.org/x/vuln/cmd/govulncheck@v1.6.0
+      - name: Install quality-gate tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes jq shellcheck
+          go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+          go install github.com/mikefarah/yq/v4@v4.53.3
       - name: Publisher smoke and full quality gate
         run: tests/publisher-smoke.sh
       - name: Five-version confmap runtime comparison
