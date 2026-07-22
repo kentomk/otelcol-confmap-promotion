@@ -8,7 +8,17 @@ unformatted=$(gofmt -l -- cmd internal testdata)
 test -z "$unformatted"
 
 go test ./...
-CC="zig cc" go test -race ./...
+if [[ -n ${CC:-} ]]; then
+  race_cc=$CC
+elif command -v cc >/dev/null 2>&1; then
+  race_cc=cc
+elif command -v zig >/dev/null 2>&1; then
+  race_cc='zig cc'
+else
+  printf '%s\n' 'quality gate requires CC, platform cc, or Zig for race tests' >&2
+  exit 2
+fi
+CC="$race_cc" go test -race ./...
 go vet ./...
 shellcheck scripts/*.sh tests/*.sh
 actionlint .github/workflows/*.yml

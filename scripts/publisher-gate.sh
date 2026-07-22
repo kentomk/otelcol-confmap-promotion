@@ -37,4 +37,5 @@ scanner="$go_path/bin/govulncheck"
 
 scanner_dir=$(dirname -- "$scanner")
 export PATH="$scanner_dir:$PATH"
+export CC='zig cc'
 tests/publisher-smoke.sh

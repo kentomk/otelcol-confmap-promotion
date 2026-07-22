@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "action": "create",
+  "action": "update",
   "owner": "kentomk",
   "name": "otelcol-confmap-promotion",
   "description": "Find promoted OpenTelemetry Collector config decoders that can reject or silently skip sibling fields.",
@@ -73,5 +73,5 @@
   "differentiation": "A network-free Go source analyzer limited to confmap-compatible method promotion and squash risks, with deterministic owner, sibling, relative-location, unknown, and exit contracts across CLI, SARIF, vettool, and CI.",
   "testCommand": "scripts/publisher-gate.sh",
   "license": "MIT",
-  "commitMessage": "Mark confmap promotion analyzer publish ready"
+  "commitMessage": "Fix portable race compiler selection"
 }
