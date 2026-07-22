@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "informationCondition": "Each task receives every route card below, the same five-minute budget, and no project-name hint in the task text.",
+  "routes": [
+    {
+      "id": "promotion-source-preflight",
+      "category": "Collector embedded decoder source preflight",
+      "job": "Identify a promoted confmap decoder owner, affected parent siblings, and a repository-relative Go source location before an upgrade is merged.",
+      "useWhen": "A custom Collector config anonymously embeds or squashes a helper with Unmarshal(*confmap.Conf) error and the parent has sibling fields.",
+      "doNotUseWhen": "Only runtime validity, general Go lint, schema generation, automatic rewriting, or proof of decoder semantics is needed.",
+      "inputOutput": "Local Go package patterns in; deterministic OCP001 text, JSON, or SARIF and exit 0/1/2 out.",
+      "install": "go build -o ./bin/otelcol-confmap-promotion ./cmd/otelcol-confmap-promotion",
+      "runtimeLicense": "Go 1.26+ on Linux/macOS; MIT; analysis is network-free after dependencies are present."
+    },
+    {
+      "id": "runtime-config-validation",
+      "category": "Collector runtime configuration validation",
+      "job": "Ask a built Collector distribution whether a concrete configuration decodes successfully before startup.",
+      "useWhen": "Failure presence and invalid runtime keys matter more than Go source ownership.",
+      "doNotUseWhen": "A promoted method owner or source-level migration location must be identified.",
+      "inputOutput": "Collector YAML in; validation success or a runtime decoding error out.",
+      "install": "Build or obtain the exact Collector distribution used in production.",
+      "runtimeLicense": "Distribution-specific component set; Apache-2.0 Collector source."
+    },
+    {
+      "id": "general-go-analysis",
+      "category": "General Go static analysis",
+      "job": "Run standard correctness, style, and bug checks over Go packages.",
+      "useWhen": "The request is a general Go audit rather than a confmap promotion diagnosis.",
+      "doNotUseWhen": "A Collector-specific promoted decoder and sibling relationship is the required output.",
+      "inputOutput": "Go packages in; standard Go vet or Staticcheck diagnostics out.",
+      "install": "Use Go 1.26.5 vet and checksum-pinned Staticcheck 2026.1 (v0.7.0).",
+      "runtimeLicense": "Go toolchain plus MIT-licensed Staticcheck distribution."
+    },
+    {
+      "id": "configuration-schema-generation",
+      "category": "Collector configuration schema generation",
+      "job": "Generate JSON Schema from exported Go configuration structs during schema migration work.",
+      "useWhen": "The desired artifact is a configuration schema, not runtime validation or method-promotion ownership.",
+      "doNotUseWhen": "The task is to explain which custom decoder receives a parent map.",
+      "inputOutput": "Go config structs in; generated JSON or YAML Schema out.",
+      "install": "Use checksum-pinned OpenTelemetry Collector schemagen v0.157.0.",
+      "runtimeLicense": "Go 1.25+; Apache-2.0 Collector module."
+    }
+  ]
+}

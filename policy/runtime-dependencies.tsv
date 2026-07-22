@@ -1,0 +1,4 @@
+# module	version	license	license_sha256
+golang.org/x/mod	v0.30.0	BSD-3-Clause	911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad
+golang.org/x/sync	v0.18.0	BSD-3-Clause	911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad
+golang.org/x/tools	v0.39.0	BSD-3-Clause	911f8f5782931320f5b8d1160a76365b83aea6447ee6c04fa6d5591467db9dad

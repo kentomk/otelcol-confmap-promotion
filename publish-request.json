@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 2,
+  "action": "create",
+  "owner": "kentomk",
+  "name": "otelcol-confmap-promotion",
+  "description": "Find promoted OpenTelemetry Collector config decoders that can reject or silently skip sibling fields.",
+  "topics": [
+    "kento-oss",
+    "opentelemetry",
+    "golang",
+    "static-analysis",
+    "ci"
+  ],
+  "candidateId": "20260720T061437Z-0e92",
+  "targetUsers": "Maintainers of custom OpenTelemetry Collector receivers, processors, exporters, and extensions who upgrade Collector or embedded helper dependencies.",
+  "jobToBeDone": "Before merging a dependency upgrade, identify an embedded or squashed config decoder's declaration owner, affected sibling fields, and source location so the maintainer can choose a nested config or a tested explicit decoder.",
+  "distributionPath": "Checksum-verified reproducible Linux and macOS archives, go install, a standard go vet vettool, and an offline composite GitHub Action pinned by full commit SHA.",
+  "successMetric": "Within 30 days, one unrelated custom Collector repository uses the analyzer to catch a real decode regression or silent sibling-loss risk before merge and shows the config or preservation-test fix.",
+  "reviewAfterDays": 1,
+  "opportunityScore": 76,
+  "demandEvidence": [
+    {
+      "url": "https://github.com/open-telemetry/opentelemetry-collector/issues/12709",
+      "kind": "maintainer-failure",
+      "independenceKey": "collector core embedded config invalid sibling failure"
+    },
+    {
+      "url": "https://github.com/open-telemetry/opentelemetry-collector/issues/13273",
+      "kind": "maintainer-failure",
+      "independenceKey": "collector helper promotion invalid key regression"
+    },
+    {
+      "url": "https://github.com/Sawmills/opentelemetry-collector/pull/8",
+      "kind": "downstream-fix",
+      "independenceKey": "sawmills custom collector promoted decoder fix"
+    },
+    {
+      "url": "https://github.com/Sawmills/opentelemetry-collector-contrib/pull/16",
+      "kind": "downstream-fix",
+      "independenceKey": "sawmills contrib sibling preservation regression"
+    }
+  ],
+  "alternatives": [
+    {
+      "name": "otelcorecol v0.157.0 validate",
+      "url": "https://github.com/open-telemetry/opentelemetry-collector/releases/tag/v0.157.0",
+      "tested": true,
+      "gap": "Detects the invalid runtime key but does not identify the promoted decoder owner or its source location."
+    },
+    {
+      "name": "Go 1.26.5 vet and Staticcheck 2026.1",
+      "url": "https://github.com/dominikh/go-tools/releases/tag/2026.1",
+      "tested": true,
+      "gap": "Both passed the original unsafe type graph without connecting the promoted confmap method to parent sibling fields."
+    },
+    {
+      "name": "OpenTelemetry Collector schemagen v0.157.0",
+      "url": "https://raw.githubusercontent.com/open-telemetry/opentelemetry-collector/v0.157.0/cmd/schemagen/README.md",
+      "tested": true,
+      "gap": "Generated separate parent and helper shapes without warning that the promoted decoder can own the parent decode path."
+    },
+    {
+      "name": "Named nested config or explicit parent decoder with preservation tests",
+      "url": "https://opentelemetry.io/docs/collector/configuration/",
+      "tested": true,
+      "gap": "These are effective fixes after the risky structure is known, but do not locate every promotion or squash site before an upgrade."
+    }
+  ],
+  "duplicateSearch": {
+    "completed": true,
+    "summary": "Ran pinned runtime validation, Go vet, Staticcheck, and schemagen against the same original fixtures; none produced the bounded OCP001 owner, sibling, and source-location distinction."
+  },
+  "differentiation": "A network-free Go source analyzer limited to confmap-compatible method promotion and squash risks, with deterministic owner, sibling, relative-location, unknown, and exit contracts across CLI, SARIF, vettool, and CI.",
+  "testCommand": "scripts/publisher-gate.sh",
+  "license": "MIT",
+  "commitMessage": "Mark confmap promotion analyzer publish ready"
+}

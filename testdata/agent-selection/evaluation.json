@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "evaluationMode": "single automated-AI evaluator with deterministic command replay",
+  "evaluator": "Matsuki Kento (@kentomk), an automated AI agent",
+  "recordedAt": "2026-07-22T18:41:53Z",
+  "catalogSha256": "d0205ffd673e6aa875a4b21a5fba23021716f618a23590ab5351ec80d0dcdaa8",
+  "environment": {
+    "os": "linux",
+    "arch": "arm64",
+    "go": "1.26.5",
+    "budgetSecondsPerTask": 300,
+    "credentials": false
+  },
+  "limitations": "This controlled local catalog evaluation records one automated evaluator and must not be generalized to other agents, models, search indexes, or external adoption. Discovery means finding a route in the identical supplied catalog, not organic web ranking.",
+  "recordedMetrics": {
+    "discovered": 12,
+    "selectedCorrectly": 12,
+    "installEligible": 9,
+    "installSucceeded": 9,
+    "taskTestsPassed": 12,
+    "taskCount": 12,
+    "topLevelCommandCount": 8,
+    "manualInterventions": 0,
+    "firstUsefulOutputMs": 404,
+    "totalReplayMs": 13134
+  },
+  "records": [
+    {"taskId":"target-anonymous","discoveredRoutes":["promotion-source-preflight","runtime-config-validation","general-go-analysis","configuration-schema-generation"],"selectedRoute":"promotion-source-preflight","reason":"The request requires promoted owner, sibling, and source location before merge.","discover":"passed","qualify":"passed","install":"passed","taskTest":"passed"},
+    {"taskId":"target-squash","discoveredRoutes":["promotion-source-preflight","runtime-config-validation","general-go-analysis","configuration-schema-generation"],"selectedRoute":"promotion-source-preflight","reason":"The flattened helper and source ownership match the narrow squash preflight.","discover":"passed","qualify":"passed","install":"passed","taskTest":"passed"},
+    {"taskId":"target-multilevel","discoveredRoutes":["promotion-source-preflight","runtime-config-validation","general-go-analysis","configuration-schema-generation"],"selectedRoute":"promotion-source-preflight","reason":"The job is to trace a promoted decoder through embedding depth.","discover":"passed","qualify":"passed","install":"passed","taskTest":"passed"},
+    {"taskId":"target-alias","discoveredRoutes":["promotion-source-preflight","runtime-config-validation","general-go-analysis","configuration-schema-generation"],"selectedRoute":"promotion-source-preflight","reason":"Alias resolution plus owner and sibling reporting is required.","discover":"passed","qualify":"passed","install":"passed","taskTest":"passed"},
+    {"taskId":"target-generic","discoveredRoutes":["promotion-source-preflight","runtime-config-validation","general-go-analysis","configuration-schema-generation"],"selectedRoute":"promotion-source-preflight","reason":"The request needs a machine-readable promotion-specific source result.","discover":"passed","qualify":"passed","install":"passed","taskTest":"passed"},
+    {"taskId":"target-value-receiver","discoveredRoutes":["promotion-source-preflight","runtime-config-validation","general-go-analysis","configuration-schema-generation"],"selectedRoute":"promotion-source-preflight","reason":"Value-receiver method-set promotion and sibling identity are the requested outputs.","discover":"passed","qualify":"passed","install":"passed","taskTest":"passed"},
+    {"taskId":"competitor-runtime","discoveredRoutes":["promotion-source-preflight","runtime-config-validation","general-go-analysis","configuration-schema-generation"],"selectedRoute":"runtime-config-validation","reason":"A built distribution can answer runtime validity directly; source ownership is unnecessary.","discover":"passed","qualify":"passed","install":"passed","taskTest":"passed"},
+    {"taskId":"competitor-go-analysis","discoveredRoutes":["promotion-source-preflight","runtime-config-validation","general-go-analysis","configuration-schema-generation"],"selectedRoute":"general-go-analysis","reason":"The task asks for standard general Go analysis, not a confmap-specific rule.","discover":"passed","qualify":"passed","install":"passed","taskTest":"passed"},
+    {"taskId":"competitor-schema","discoveredRoutes":["promotion-source-preflight","runtime-config-validation","general-go-analysis","configuration-schema-generation"],"selectedRoute":"configuration-schema-generation","reason":"The requested artifact is JSON Schema, so the schema route is the direct fit.","discover":"passed","qualify":"passed","install":"passed","taskTest":"passed"},
+    {"taskId":"nongoal-rewrite","discoveredRoutes":["promotion-source-preflight","runtime-config-validation","general-go-analysis","configuration-schema-generation"],"selectedRoute":"none","reason":"Automatic source/config rewrite and unreviewed commits are explicit non-goals.","discover":"passed","qualify":"passed","install":"not-applicable","taskTest":"passed"},
+    {"taskId":"nongoal-proof","discoveredRoutes":["promotion-source-preflight","runtime-config-validation","general-go-analysis","configuration-schema-generation"],"selectedRoute":"none","reason":"Static structure cannot prove semantic field preservation without tests.","discover":"passed","qualify":"passed","install":"not-applicable","taskTest":"passed"},
+    {"taskId":"nongoal-connectivity","discoveredRoutes":["promotion-source-preflight","runtime-config-validation","general-go-analysis","configuration-schema-generation"],"selectedRoute":"none","reason":"General YAML, credentials, and backend connectivity are outside every supplied route.","discover":"passed","qualify":"passed","install":"not-applicable","taskTest":"passed"}
+  ]
+}

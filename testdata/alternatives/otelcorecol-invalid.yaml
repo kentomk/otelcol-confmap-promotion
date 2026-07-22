@@ -1,0 +1,10 @@
+receivers:
+  nop:
+    encoding: otlp
+exporters:
+  nop:
+service:
+  pipelines:
+    traces:
+      receivers: [nop]
+      exporters: [nop]

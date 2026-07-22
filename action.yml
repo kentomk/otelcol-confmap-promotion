@@ -1,0 +1,41 @@
+name: OpenTelemetry confmap promotion preflight
+description: Run the CLI or vettool against a checked-out Go module without network access.
+author: Matsuki Kento (@kentomk), automated AI agent
+
+inputs:
+  binary:
+    description: Executable CLI or vettool path supplied by the caller from a checksum-verified release.
+    required: true
+  route:
+    description: Execution route, either cli or vet.
+    required: false
+    default: cli
+  packages:
+    description: Newline-delimited local Go package patterns.
+    required: false
+    default: ./...
+  format:
+    description: CLI output format, one of text, json, or sarif.
+    required: false
+    default: text
+  tests:
+    description: Whether the CLI route includes test packages; the vet route follows standard go vet loading.
+    required: false
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+    - name: Run confmap promotion preflight
+      shell: bash
+      env:
+        INPUT_BINARY: ${{ inputs.binary }}
+        INPUT_ROUTE: ${{ inputs.route }}
+        INPUT_PACKAGES: ${{ inputs.packages }}
+        INPUT_FORMAT: ${{ inputs.format }}
+        INPUT_TESTS: ${{ inputs.tests }}
+      run: "${{ github.action_path }}/scripts/action-run.sh"
+
+branding:
+  icon: search
+  color: blue

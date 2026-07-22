@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "tasks": [
+    {
+      "id": "target-anonymous",
+      "class": "target-fit",
+      "prompt": "After a custom Collector dependency upgrade, an anonymously embedded helper gained a confmap decoder. Identify the promoted decoder owner, affected sibling, and Go source location before merge.",
+      "expectedRoute": "promotion-source-preflight",
+      "fixture": "testdata/fixtures/unsafe-anonymous",
+      "expectedParent": "Config",
+      "expectedOwner": "Helper",
+      "expectedSibling": "encoding"
+    },
+    {
+      "id": "target-squash",
+      "class": "target-fit",
+      "prompt": "A named helper flattened with a squash tag rejects two parent options after a Collector library update. Locate the decoder responsible and list the sibling fields at risk.",
+      "expectedRoute": "promotion-source-preflight",
+      "fixture": "testdata/fixtures/unsafe-squash",
+      "expectedParent": "Config",
+      "expectedOwner": "Helper",
+      "expectedSibling": "compress_in_memory"
+    },
+    {
+      "id": "target-multilevel",
+      "class": "target-fit",
+      "prompt": "A decoder is promoted through two levels of embedded configuration and a parent option becomes invalid. Trace the final method owner and report the source location.",
+      "expectedRoute": "promotion-source-preflight",
+      "fixture": "testdata/fixtures/multi-level",
+      "expectedParent": "Config",
+      "expectedOwner": "Helper",
+      "expectedSibling": "encoding"
+    },
+    {
+      "id": "target-alias",
+      "class": "target-fit",
+      "prompt": "A custom Collector config embeds a type alias whose decoder may receive the whole parent map. Determine the declared decoder owner and impacted sibling before upgrading.",
+      "expectedRoute": "promotion-source-preflight",
+      "fixture": "testdata/fixtures/alias",
+      "expectedParent": "Config",
+      "expectedOwner": "Helper",
+      "expectedSibling": "encoding"
+    },
+    {
+      "id": "target-generic",
+      "class": "target-fit",
+      "prompt": "A generic embedded helper implements confmap decoding and a peer field may be skipped or rejected. Produce a machine-readable source-level preflight result.",
+      "expectedRoute": "promotion-source-preflight",
+      "fixture": "testdata/fixtures/generic",
+      "expectedParent": "Config",
+      "expectedOwner": "Helper",
+      "expectedSibling": "encoding"
+    },
+    {
+      "id": "target-value-receiver",
+      "class": "target-fit",
+      "prompt": "An embedded helper exposes its custom decoder on a value receiver. Check whether the method is promoted onto the parent and name the sibling field involved.",
+      "expectedRoute": "promotion-source-preflight",
+      "fixture": "testdata/fixtures/value-receiver",
+      "expectedParent": "Config",
+      "expectedOwner": "Helper",
+      "expectedSibling": "encoding"
+    },
+    {
+      "id": "competitor-runtime",
+      "class": "competitor-fit",
+      "prompt": "Check whether a built Collector configuration containing an unexpected receiver key is rejected before startup; Go source ownership is not required.",
+      "expectedRoute": "runtime-config-validation"
+    },
+    {
+      "id": "competitor-go-analysis",
+      "class": "competitor-fit",
+      "prompt": "Run the standard general Go correctness and bug checks on a package; no Collector-specific decoder diagnosis is requested.",
+      "expectedRoute": "general-go-analysis"
+    },
+    {
+      "id": "competitor-schema",
+      "class": "competitor-fit",
+      "prompt": "Generate JSON Schema from exported Go configuration structs for a component migration; runtime decoding diagnosis is not requested.",
+      "expectedRoute": "configuration-schema-generation"
+    },
+    {
+      "id": "nongoal-rewrite",
+      "class": "non-goal",
+      "prompt": "Automatically rewrite every embedded Collector configuration into nested YAML and commit the changes without review.",
+      "expectedRoute": "none"
+    },
+    {
+      "id": "nongoal-proof",
+      "class": "non-goal",
+      "prompt": "Prove that an explicit parent decoder preserves every sibling field without executing or inspecting its semantic tests.",
+      "expectedRoute": "none"
+    },
+    {
+      "id": "nongoal-connectivity",
+      "class": "non-goal",
+      "prompt": "Validate arbitrary YAML syntax, resolve credentials, and confirm that every telemetry backend is reachable.",
+      "expectedRoute": "none"
+    }
+  ]
+}
