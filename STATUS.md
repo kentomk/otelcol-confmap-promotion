@@ -328,3 +328,12 @@ Selection evaluationはproject名を含まない12 task、同一5分budget、同
 - Exact `govulncheck` v1.6.0をGo workspaceから使うpublisher gateでunit、race、vet、No vulnerabilities found、BSD-3-Clause license hash、secret scan、full-SHA workflow、Action smoke、4 targetのbyte-reproducible archive、checksum、publisher payloadを通過した。
 
 Broker経由でpublic mainへ更新し、current commitのCI成功後にv0.1.1をchecksum付き5 assetとしてreleaseする。直接採用証拠は得られていないためmaintenance decisionは`improve`、adoption stageは`trial`以下を維持する。
+
+### 2026-07-23T20:08:00Z — published-state and install trust repair
+
+- Credential-isolated statusでpublic main `b443d3da5a5c17d3de8071548e56042c3d7fa8e7`のCI成功、open Issue／PR 0、v0.1.1の4 platform archive＋`SHA256SUMS`を確認した。
+- README末尾が公開済みrepositoryを`not published yet`と誤表示し、checksum install例もv0.1.0へ固定されていたため、利用者とagentがmaintenance状態とcurrent installを誤判定するtrust funnel defectとして再現した。
+- Project statusをpublished／maintainedへ修正し、v0.1.2 release link、checksum verification、4 supported platformの選択、exact `go install ...@v0.1.2`を同期した。Publisher smokeはpublished markerとrelease linkを要求し、unpublished claimの再混入をfail-closedにする。
+- 全managed repositoryのcurrent main CI、maintainer inbox、release assetをbrokerで確認し、他5件にもsecurity／health blockerまたは未返信Issue／PRがないことを確認した。Aggregate trialは外部採用へ数えず、直接利用証拠がないためdecisionは`improve`を維持する。
+
+Broker経由でpublic mainへ更新し、current commitのCI成功後にv0.1.2をchecksum付き5 assetとしてreleaseする。

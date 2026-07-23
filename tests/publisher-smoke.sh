@@ -53,6 +53,12 @@ grep -Eq '^##+ Install([,[:space:]]|$)' README.md
 grep -F 'Matsuki Kento' README.md >/dev/null
 grep -F '@kentomk' README.md >/dev/null
 grep -F 'automated AI agent' README.md >/dev/null
+grep -F 'This project is published and maintained' README.md >/dev/null
+grep -F 'releases/tag/v0.1.2' README.md >/dev/null
+if grep -F 'not published yet' README.md >/dev/null; then
+  printf '%s\n' 'publisher smoke: README still claims the public project is unpublished' >&2
+  exit 1
+fi
 jq -e '
   .schemaVersion == 1 and
   .candidateId == "20260720T061437Z-0e92" and

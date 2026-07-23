@@ -4,6 +4,7 @@ All notable changes will be documented here. The project follows Semantic Versio
 
 ## Unreleased
 
+- Correct the public project status and checksum-verified install examples for v0.1.2, and fail the publisher smoke test if the README regresses to an unpublished claim.
 - Make top-level and `check --help` discoverable, complete, and successful without loading a package; cover text, JSON, SARIF, limits, tests, and timeout options in the tested usage contract.
 - Select caller `CC`, platform `cc`, or installed Zig for ordinary race tests, install exact non-Go quality-gate tools in CI, and keep the verified publisher gate on Zig 0.16.0.
 - Add a Linux arm64 publisher entrypoint that verifies exact toolchains and resolves the pinned vulnerability scanner independently of the login-shell `PATH`.
