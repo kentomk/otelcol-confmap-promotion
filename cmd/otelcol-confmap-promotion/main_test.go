@@ -118,3 +118,40 @@ func TestExternalTestPackageAndVendorBoundary(t *testing.T) {
 		t.Fatal("vendor path boundary is not segment-aware")
 	}
 }
+
+func TestHelpAndUsageContract(t *testing.T) {
+	for _, arguments := range [][]string{{"--help"}, {"-h"}, {"help"}} {
+		var stdout, stderr bytes.Buffer
+		if status := runWithWriters(arguments, &stdout, &stderr); status != 0 {
+			t.Fatalf("%v returned %d", arguments, status)
+		}
+		if !strings.Contains(stdout.String(), "check [OPTIONS] [PACKAGE...]") ||
+			!strings.Contains(stdout.String(), "text, JSON, and SARIF") ||
+			stderr.Len() != 0 {
+			t.Fatalf("%v produced unexpected help: stdout=%q stderr=%q", arguments, stdout.String(), stderr.String())
+		}
+	}
+
+	var stdout, stderr bytes.Buffer
+	if status := runWithWriters([]string{"check", "--help"}, &stdout, &stderr); status != 0 {
+		t.Fatalf("check --help returned %d", status)
+	}
+	help := stderr.String()
+	for _, expected := range []string{"-format", "-tests", "-max-packages", "-max-types", "-max-fields", "-max-diagnostics", "-timeout"} {
+		if !strings.Contains(help, expected) {
+			t.Fatalf("check help omitted %q: %s", expected, help)
+		}
+	}
+	if stdout.Len() != 0 {
+		t.Fatalf("check help wrote unexpected stdout: %q", stdout.String())
+	}
+
+	stdout.Reset()
+	stderr.Reset()
+	if status := runWithWriters(nil, &stdout, &stderr); status != 2 {
+		t.Fatalf("missing command returned %d", status)
+	}
+	if !strings.Contains(stderr.String(), "--help") || stdout.Len() != 0 {
+		t.Fatalf("missing command produced unexpected usage: stdout=%q stderr=%q", stdout.String(), stderr.String())
+	}
+}

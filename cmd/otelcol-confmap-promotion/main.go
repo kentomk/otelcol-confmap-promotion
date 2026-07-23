@@ -7,6 +7,7 @@ import (
 	"flag"
 	"fmt"
 	"go/ast"
+	"io"
 	"os"
 	"path/filepath"
 	"sort"
@@ -48,16 +49,32 @@ func main() {
 }
 
 func run(arguments []string) int {
+	return runWithWriters(arguments, os.Stdout, os.Stderr)
+}
+
+func runWithWriters(arguments []string, stdout, stderr io.Writer) int {
 	if len(arguments) == 1 && arguments[0] == "version" {
-		fmt.Println(version)
+		fmt.Fprintln(stdout, version)
+		return 0
+	}
+	if len(arguments) == 1 && (arguments[0] == "--help" || arguments[0] == "-h" || arguments[0] == "help") {
+		writeUsage(stdout)
 		return 0
 	}
 	if len(arguments) == 0 || arguments[0] != "check" {
-		fmt.Fprintln(os.Stderr, "usage: otelcol-confmap-promotion check [--format text|json] [PACKAGE...] | version")
+		writeUsage(stderr)
 		return 2
 	}
 	flags := flag.NewFlagSet("check", flag.ContinueOnError)
-	flags.SetOutput(os.Stderr)
+	flags.SetOutput(stderr)
+	flags.Usage = func() {
+		fmt.Fprintln(stderr, "usage: otelcol-confmap-promotion check [OPTIONS] [PACKAGE...]")
+		fmt.Fprintln(stderr)
+		fmt.Fprintln(stderr, "Analyze ./... by default. Exit 0 means no diagnostics, 1 means OCP001 was found, and 2 means the analysis could not complete.")
+		fmt.Fprintln(stderr)
+		fmt.Fprintln(stderr, "options:")
+		flags.PrintDefaults()
+	}
 	format := flags.String("format", "text", "text, json, or sarif")
 	includeTests := flags.Bool("tests", false, "include test packages")
 	maxPackages := flags.Int("max-packages", 256, "maximum loaded packages")
@@ -66,22 +83,25 @@ func run(arguments []string) int {
 	maxDiagnostics := flags.Int("max-diagnostics", 10000, "maximum diagnostics per package")
 	timeout := flags.Duration("timeout", 60*time.Second, "analysis timeout")
 	if err := flags.Parse(arguments[1:]); err != nil {
+		if errors.Is(err, flag.ErrHelp) {
+			return 0
+		}
 		return 2
 	}
 	if *format != "text" && *format != "json" && *format != "sarif" {
-		fmt.Fprintln(os.Stderr, "format must be text, json, or sarif")
+		fmt.Fprintln(stderr, "format must be text, json, or sarif")
 		return 2
 	}
 	if *maxPackages < 1 || *maxPackages > 256 {
-		fmt.Fprintln(os.Stderr, "max-packages must be between 1 and 256")
+		fmt.Fprintln(stderr, "max-packages must be between 1 and 256")
 		return 2
 	}
 	if *maxTypes < 1 || *maxTypes > 100000 || *maxFields < 1 || *maxFields > 1000000 || *maxDiagnostics < 1 || *maxDiagnostics > 10000 {
-		fmt.Fprintln(os.Stderr, "type, field, or diagnostic limit is outside its supported range")
+		fmt.Fprintln(stderr, "type, field, or diagnostic limit is outside its supported range")
 		return 2
 	}
 	if *timeout < time.Second || *timeout > 60*time.Second {
-		fmt.Fprintln(os.Stderr, "timeout must be between 1s and 60s")
+		fmt.Fprintln(stderr, "timeout must be between 1s and 60s")
 		return 2
 	}
 	patterns := flags.Args()
@@ -91,28 +111,37 @@ func run(arguments []string) int {
 	limits := reportLimits{MaxPackages: *maxPackages, MaxTypes: *maxTypes, MaxFields: *maxFields, MaxDiagnostics: *maxDiagnostics, TimeoutSeconds: int(timeout.Seconds())}
 	result, err := scanWithLimits(patterns, *includeTests, limits, *timeout)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "analysis failed: %v\n", err)
+		fmt.Fprintf(stderr, "analysis failed: %v\n", err)
 		return 2
 	}
 	if *format == "json" {
-		encoder := json.NewEncoder(os.Stdout)
+		encoder := json.NewEncoder(stdout)
 		encoder.SetEscapeHTML(false)
 		if err := encoder.Encode(result); err != nil {
-			fmt.Fprintln(os.Stderr, "analysis failed: could not encode report")
+			fmt.Fprintln(stderr, "analysis failed: could not encode report")
 			return 2
 		}
 	} else if *format == "sarif" {
-		if err := writeSARIF(os.Stdout, result); err != nil {
-			fmt.Fprintln(os.Stderr, "analysis failed: could not encode SARIF report")
+		if err := writeSARIF(stdout, result); err != nil {
+			fmt.Fprintln(stderr, "analysis failed: could not encode SARIF report")
 			return 2
 		}
 	} else {
-		writeText(result)
+		writeText(stdout, result)
 	}
 	if len(result.Diagnostics) > 0 {
 		return 1
 	}
 	return 0
+}
+
+func writeUsage(writer io.Writer) {
+	fmt.Fprintln(writer, "usage:")
+	fmt.Fprintln(writer, "  otelcol-confmap-promotion check [OPTIONS] [PACKAGE...]")
+	fmt.Fprintln(writer, "  otelcol-confmap-promotion version")
+	fmt.Fprintln(writer, "  otelcol-confmap-promotion --help")
+	fmt.Fprintln(writer)
+	fmt.Fprintln(writer, "Run \"otelcol-confmap-promotion check --help\" for analysis options, including text, JSON, and SARIF output.")
 }
 
 func scan(patterns []string, includeTests bool, maxPackages int) (report, error) {
@@ -226,18 +255,18 @@ func scanWithLimits(patterns []string, includeTests bool, limits reportLimits, t
 	return output, nil
 }
 
-func writeText(output report) {
+func writeText(writer io.Writer, output report) {
 	for _, diagnostic := range output.Diagnostics {
-		fmt.Printf("%s %s %s: %s\n", diagnostic.RuleID, diagnostic.Severity, diagnostic.Location, diagnostic.Message)
+		fmt.Fprintf(writer, "%s %s %s: %s\n", diagnostic.RuleID, diagnostic.Severity, diagnostic.Location, diagnostic.Message)
 	}
 	for _, unknown := range output.Unknowns {
 		if unknown.ParentType == "" {
-			fmt.Printf("UNKNOWN note %s: %s\n", unknown.Location, unknown.Reason)
+			fmt.Fprintf(writer, "UNKNOWN note %s: %s\n", unknown.Location, unknown.Reason)
 			continue
 		}
-		fmt.Printf("UNKNOWN note %s: %s embeds %s.%s; %s\n", unknown.Location, unknown.ParentType, unknown.MethodOwner, "Unmarshal", unknown.Reason)
+		fmt.Fprintf(writer, "UNKNOWN note %s: %s embeds %s.%s; %s\n", unknown.Location, unknown.ParentType, unknown.MethodOwner, "Unmarshal", unknown.Reason)
 	}
-	fmt.Printf("summary: packages=%d diagnostics=%d unknowns=%d\n", output.Summary.Packages, output.Summary.Diagnostics, output.Summary.Unknowns)
+	fmt.Fprintf(writer, "summary: packages=%d diagnostics=%d unknowns=%d\n", output.Summary.Packages, output.Summary.Diagnostics, output.Summary.Unknowns)
 }
 
 func safePackageName(value string) string {

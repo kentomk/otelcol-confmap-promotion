@@ -319,3 +319,12 @@ Selection evaluationはproject名を含まない12 task、同一5分budget、同
 - Local hostのplatform `cc`不在もfail-closedで確認し、fallback Zigでunit／race／vet／policy／secret／Action gate、publisher明示`CC='zig cc'`でrace、独立release gateで4 targetの2回build byte一致とchecksumを通した。Public ubuntu runnerはplatform `cc`を選択し、brokerはverified Zigを選択する。
 
 最初の修正公開後、public run `29953586372`はexit 127となり、missing quality-gate toolという第二のportable CI境界を確定した。同じmaintain runでpublisher Zigのfull gateを再度通し、exact CI tool installを含むclean substantive commitをbrokerで公開してpublic main CIとrelease assetを再確認する。
+
+### 2026-07-23T10:08:00Z — machine-verifiable CLI help maintenance
+
+- Top-level `--help`、`-h`、`help`と`check --help`が従来exit 2となり、top-level usageが実装済みSARIF、test-aware mode、resource limit、timeoutを列挙しない導入摩擦を再現した。Package load前にCLI contractだけを確認するinstaller／automationが成功判定できない状態だった。
+- CLI outputをexplicit writerへ分離し、top-level helpをstdout／exit 0、subcommand helpを全option付き／exit 0、missingまたはunknown commandをstderr／exit 2へ固定した。通常text、JSON、SARIFと既存exit 0／1／2 contractは同じwriter経路で維持する。
+- Unit testは3種類のtop-level help、全7 analysis option、missing command failureを検証する。READMEはpackageをloadせずhelp contractを検査できることを案内し、CHANGELOGへ利用者価値を記録した。
+- Exact `govulncheck` v1.6.0をGo workspaceから使うpublisher gateでunit、race、vet、No vulnerabilities found、BSD-3-Clause license hash、secret scan、full-SHA workflow、Action smoke、4 targetのbyte-reproducible archive、checksum、publisher payloadを通過した。
+
+Broker経由でpublic mainへ更新し、current commitのCI成功後にv0.1.1をchecksum付き5 assetとしてreleaseする。直接採用証拠は得られていないためmaintenance decisionは`improve`、adoption stageは`trial`以下を維持する。

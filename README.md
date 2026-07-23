@@ -45,9 +45,12 @@ otelcol-confmap-promotion check [--format text|json|sarif] [--tests]
   [--max-packages 256] [--max-types 100000] [--max-fields 1000000]
   [--max-diagnostics 10000] [--timeout 60s] [PACKAGE...]
 otelcol-confmap-promotion version
+otelcol-confmap-promotion --help
 ```
 
 Package patterns default to `./...`. Loading runs with `GOPROXY=off`; dependencies must already be present in the module cache and `go.sum`. The tool does not change proxy settings or fetch dependencies. Packages and resolved source files must stay inside the active module after symlink resolution; standard-library, external-module, and outside-root patterns fail with exit `2`.
+
+`check --help` lists every analysis option and exits successfully, so installers and automation can verify the CLI contract without loading a package.
 
 `--tests` recognizes an original, explicit `Test<Parent>PreservesSiblings` candidate only when its body names every sibling. This strengthens the unknown reason but never declares the decoder safe or removes the need for semantic review. It does not execute tests.
 
