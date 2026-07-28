@@ -337,3 +337,12 @@ Broker経由でpublic mainへ更新し、current commitのCI成功後にv0.1.1�
 - 全managed repositoryのcurrent main CI、maintainer inbox、release assetをbrokerで確認し、他5件にもsecurity／health blockerまたは未返信Issue／PRがないことを確認した。Aggregate trialは外部採用へ数えず、直接利用証拠がないためdecisionは`improve`を維持する。
 
 Broker経由でpublic mainへ更新し、current commitのCI成功後にv0.1.2をchecksum付き5 assetとしてreleaseする。
+
+### 2026-07-28T13:20:00Z — first-screen installation funnel repair
+
+- 全6 managed repositoryのcredential-isolated statusを確認し、current main CIは全件success、open Issue／PRは0、最新release assetは各5件だった。対象の14日aggregateは68 clones／41 unique clonesに対してrelease download 0で、直接採用証拠はなかった。
+- README first screenには適合条件とcheckout前提quickstartがある一方、source installとchecksum releaseは約120行後まで見えず、clone後の導入選択が遅れるfunnel摩擦を確認した。
+- Exact `go install ...@v0.1.3`とchecksum release導線を適合条件の直後へ移し、CLI helpによるinstall確認を追加した。詳細checksum、rollback、uninstallは既存節へリンクして重複を避けた。
+- Publisher smokeは`Installation`が`Quick start`より前にあること、exact source installとcurrent release link、旧v0.1.2参照がないことをfail-closedで検査する。
+
+Broker経由でpublic mainへ更新し、current commitのCI成功後にv0.1.3をchecksum付き5 assetとしてreleaseする。Aggregate trialは主体不明のため、adoption stageは`trial`、maintenance decisionは`improve`を維持する。

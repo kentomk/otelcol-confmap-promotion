@@ -12,6 +12,17 @@ Use it when a custom Collector component embeds or squashes helper config and an
 - Runtime: Go 1.26 or newer on Linux or macOS. License: MIT.
 - Maintainer: Matsuki Kento ([@kentomk](https://github.com/kentomk)), an automated AI agent.
 
+## Installation
+
+For the CLI, install the exact source version with Go 1.26 or newer:
+
+```sh
+go install github.com/kentomk/otelcol-confmap-promotion/cmd/otelcol-confmap-promotion@v0.1.3
+otelcol-confmap-promotion --help
+```
+
+For the CLI and vettool without a source build, download the archive and `SHA256SUMS` for your platform from the [v0.1.3 release](https://github.com/kentomk/otelcol-confmap-promotion/releases/tag/v0.1.3), verify the selected archive, and extract it. The detailed checksum commands and rollback path are in [Install, rollback, and uninstall](#install-rollback-and-uninstall).
+
 ## Quick start
 
 This 60-second path starts from a clean checkout with Go 1.26 or newer:
@@ -126,22 +137,16 @@ The maintainer gate compares the exact three modules embedded in both binaries w
 Each release provides Linux and macOS archives for amd64 and arm64. Every archive contains both `otelcol-confmap-promotion` and `otelcol-confmap-promotion-vet`, plus the README, license, and security policy. Verify the selected archive before extraction:
 
 ```sh
-grep 'otelcol-confmap-promotion_v0.1.2_linux_amd64.tar.gz$' SHA256SUMS | sha256sum --check
-tar -xzf otelcol-confmap-promotion_v0.1.2_linux_amd64.tar.gz
-./otelcol-confmap-promotion_v0.1.2_linux_amd64/otelcol-confmap-promotion version
-./otelcol-confmap-promotion_v0.1.2_linux_amd64/otelcol-confmap-promotion-vet version
+grep 'otelcol-confmap-promotion_v0.1.3_linux_amd64.tar.gz$' SHA256SUMS | sha256sum --check
+tar -xzf otelcol-confmap-promotion_v0.1.3_linux_amd64.tar.gz
+./otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion version
+./otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion-vet version
 ```
 
-Source install after publication is also available for the CLI:
-
-```sh
-go install github.com/kentomk/otelcol-confmap-promotion/cmd/otelcol-confmap-promotion@v0.1.2
-```
-
-Download the archive and `SHA256SUMS` from the [v0.1.2 release](https://github.com/kentomk/otelcol-confmap-promotion/releases/tag/v0.1.2). Replace `linux_amd64` with `linux_arm64`, `darwin_amd64`, or `darwin_arm64` for another supported platform. Pin a version or checksum-verified release in CI. Roll back by restoring the prior archive or source version. Uninstall by removing both binaries and their CI step; the tool does not create config, cache, telemetry, or remote state.
+Replace `linux_amd64` with `linux_arm64`, `darwin_amd64`, or `darwin_arm64` for another supported platform. Pin a version or checksum-verified release in CI. Roll back by restoring the prior archive or source version. Uninstall by removing both binaries and their CI step; the tool does not create config, cache, telemetry, or remote state.
 
 ## Project status
 
-This project is published and maintained at [github.com/kentomk/otelcol-confmap-promotion](https://github.com/kentomk/otelcol-confmap-promotion). Release v0.1.2 supports direct and multi-level anonymous embedding, named squash fields, aliases, generic instantiations, value/pointer receivers, bounded text/JSON/SARIF output, standard `go vet -vettool` execution, and cautious preservation-test evidence. See [STATUS.md](STATUS.md) for the verified scope, maintenance history, and non-goals.
+This project is published and maintained at [github.com/kentomk/otelcol-confmap-promotion](https://github.com/kentomk/otelcol-confmap-promotion). Release v0.1.3 supports direct and multi-level anonymous embedding, named squash fields, aliases, generic instantiations, value/pointer receivers, bounded text/JSON/SARIF output, standard `go vet -vettool` execution, and cautious preservation-test evidence. See [STATUS.md](STATUS.md) for the verified scope, maintenance history, and non-goals.
 
 Maintainers can run `tests/publisher-smoke.sh` before review. It runs the full quality gate, then checks the tracked test-path, README metadata, and bounded publisher payload contract used to reject incomplete publication inputs before any external write. For race tests the quality gate selects caller `CC`, platform `cc`, then installed Zig in that order and fails if none exists. The Linux arm64 broker entrypoint is `scripts/publisher-gate.sh`; it verifies and selects exact Zig 0.16.0, then resolves the exact vulnerability scanner from the Go workspace without downloading tools or relying on the login-shell `PATH`.

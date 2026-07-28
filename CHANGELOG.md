@@ -4,6 +4,7 @@ All notable changes will be documented here. The project follows Semantic Versio
 
 ## Unreleased
 
+- Move the exact-version source and release installation paths into the README first screen, and fail the publisher gate if installation appears after the quick start or points at a stale release.
 - Correct the public project status and checksum-verified install examples for v0.1.2, and fail the publisher smoke test if the README regresses to an unpublished claim.
 - Make top-level and `check --help` discoverable, complete, and successful without loading a package; cover text, JSON, SARIF, limits, tests, and timeout options in the tested usage contract.
 - Select caller `CC`, platform `cc`, or installed Zig for ordinary race tests, install exact non-Go quality-gate tools in CI, and keep the verified publisher gate on Zig 0.16.0.

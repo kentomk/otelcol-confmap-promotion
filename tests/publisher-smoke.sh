@@ -49,12 +49,23 @@ done
 
 LC_ALL=C head -n 1 README.md | grep -Eq '^# [ -~]+$'
 grep -Eq '^##+ Quick start[[:space:]]*$' README.md
-grep -Eq '^##+ Install([,[:space:]]|$)' README.md
+grep -Eq '^##+ Installation[[:space:]]*$' README.md
+installation_line=$(grep -n -m 1 -E '^##+ Installation[[:space:]]*$' README.md | cut -d: -f1)
+quick_start_line=$(grep -n -m 1 -E '^##+ Quick start[[:space:]]*$' README.md | cut -d: -f1)
+(( installation_line < quick_start_line )) || {
+  printf '%s\n' 'publisher smoke: Installation must appear before Quick start' >&2
+  exit 1
+}
+grep -F 'go install github.com/kentomk/otelcol-confmap-promotion/cmd/otelcol-confmap-promotion@v0.1.3' README.md >/dev/null
 grep -F 'Matsuki Kento' README.md >/dev/null
 grep -F '@kentomk' README.md >/dev/null
 grep -F 'automated AI agent' README.md >/dev/null
 grep -F 'This project is published and maintained' README.md >/dev/null
-grep -F 'releases/tag/v0.1.2' README.md >/dev/null
+grep -F 'releases/tag/v0.1.3' README.md >/dev/null
+if grep -F 'v0.1.2' README.md >/dev/null; then
+  printf '%s\n' 'publisher smoke: README still references the previous release' >&2
+  exit 1
+fi
 if grep -F 'not published yet' README.md >/dev/null; then
   printf '%s\n' 'publisher smoke: README still claims the public project is unpublished' >&2
   exit 1
