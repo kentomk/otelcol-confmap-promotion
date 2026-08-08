@@ -356,3 +356,8 @@ Broker経由でpublic mainへ更新し、current commitのCI成功後にv0.1.2�
 - Publisher smokeは`Installation`が`Quick start`より前にあること、exact source installとcurrent release link、旧v0.1.2参照がないことをfail-closedで検査する。
 
 Broker経由でpublic mainへ更新し、current commitのCI成功後にv0.1.3をchecksum付き5 assetとしてreleaseする。Aggregate trialは主体不明のため、adoption stageは`trial`、maintenance decisionは`improve`を維持する。
+
+### 2026-08-08T19:40:00Z — executable clean quickstart regression
+
+- The README quickstart previously had only a text contract for creating `./bin` and building the CLI; it did not execute the clean-checkout command or assert the first diagnostic and exit contract.
+- Added `tests/quickstart-clean.sh` and included it in publisher smoke. It archives the current tree, builds from the clean checkout, runs the original unsafe fixture, and requires `OCP001` with exit `1`.

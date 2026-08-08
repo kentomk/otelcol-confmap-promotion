@@ -71,6 +71,7 @@ if grep -F 'kentomk/otelcol-confmap-promotion@b522cb5f92a0d696ef7c8a9ef9a4f60353
 fi
 grep -Fq "test -n \"\$TAG_NAME\"" .github/workflows/release.yml
 tests/quickstart-contract.sh
+tests/quickstart-clean.sh
 grep -F 'The published' SECURITY.md >/dev/null
 grep -F 'v0.1.3' SECURITY.md >/dev/null
 if grep -F 'not published yet' SECURITY.md >/dev/null; then
