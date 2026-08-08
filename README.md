@@ -32,6 +32,7 @@ curl -fsSL "$base/$archive" -o "$archive"
 curl -fsSLo SHA256SUMS "$base/SHA256SUMS"
 grep "  $archive$" SHA256SUMS | sha256sum --check --strict -
 tar -xzf "$archive"
+mkdir -p "$HOME/.local/bin"
 install -m 0755 "otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion" "$HOME/.local/bin/otelcol-confmap-promotion"
 install -m 0755 "otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion-vet" "$HOME/.local/bin/otelcol-confmap-promotion-vet"
 otelcol-confmap-promotion --help

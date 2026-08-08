@@ -4,6 +4,7 @@ All notable changes will be documented here. The project follows Semantic Versio
 
 ## Unreleased
 
+- Create the user binary directory before the copy-ready archive install commands run in a fresh home directory.
 - Pin the copy-ready composite Action example to the current successful public main and reject the superseded revision in publisher smoke.
 - Fail closed when a manual or broker-triggered release repair omits the required tag before packaging assets.
 - Make the clean-checkout quick start create `./bin` before the first build.
