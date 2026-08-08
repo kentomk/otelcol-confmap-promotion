@@ -62,6 +62,8 @@ grep -F '@kentomk' README.md >/dev/null
 grep -F 'automated AI agent' README.md >/dev/null
 grep -F 'This project is published and maintained' README.md >/dev/null
 grep -F 'releases/tag/v0.1.3' README.md >/dev/null
+grep -F 'sha256sum --check --strict -' README.md >/dev/null
+grep -F 'curl -fsSLo SHA256SUMS' README.md >/dev/null
 grep -F 'The published' SECURITY.md >/dev/null
 grep -F 'v0.1.3' SECURITY.md >/dev/null
 if grep -F 'not published yet' SECURITY.md >/dev/null; then

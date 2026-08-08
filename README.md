@@ -23,6 +23,24 @@ otelcol-confmap-promotion --help
 
 For the CLI and vettool without a source build, download the archive and `SHA256SUMS` for your platform from the [v0.1.3 release](https://github.com/kentomk/otelcol-confmap-promotion/releases/tag/v0.1.3), verify the selected archive, and extract it. The detailed checksum commands and rollback path are in [Install, rollback, and uninstall](#install-rollback-and-uninstall).
 
+For a Linux amd64 runner, the complete archive install and verification path is:
+
+```sh
+archive=otelcol-confmap-promotion_v0.1.3_linux_amd64.tar.gz
+base=https://github.com/kentomk/otelcol-confmap-promotion/releases/download/v0.1.3
+curl -fsSL "$base/$archive" -o "$archive"
+curl -fsSLo SHA256SUMS "$base/SHA256SUMS"
+grep "  $archive$" SHA256SUMS | sha256sum --check --strict -
+tar -xzf "$archive"
+install -m 0755 "otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion" "$HOME/.local/bin/otelcol-confmap-promotion"
+install -m 0755 "otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion-vet" "$HOME/.local/bin/otelcol-confmap-promotion-vet"
+otelcol-confmap-promotion --help
+```
+
+Use the matching `darwin_amd64`, `darwin_arm64`, or `linux_arm64` archive on
+other supported platforms. Keep `SHA256SUMS` with the downloaded archive until
+verification succeeds; do not execute an archive that fails the check.
+
 ## Quick start
 
 This 60-second path starts from a clean checkout with Go 1.26 or newer:
@@ -137,7 +155,7 @@ The maintainer gate compares the exact three modules embedded in both binaries w
 Each release provides Linux and macOS archives for amd64 and arm64. Every archive contains both `otelcol-confmap-promotion` and `otelcol-confmap-promotion-vet`, plus the README, license, and security policy. Verify the selected archive before extraction:
 
 ```sh
-grep 'otelcol-confmap-promotion_v0.1.3_linux_amd64.tar.gz$' SHA256SUMS | sha256sum --check
+grep 'otelcol-confmap-promotion_v0.1.3_linux_amd64.tar.gz$' SHA256SUMS | sha256sum --check --strict -
 tar -xzf otelcol-confmap-promotion_v0.1.3_linux_amd64.tar.gz
 ./otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion version
 ./otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion-vet version
