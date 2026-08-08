@@ -320,6 +320,10 @@ Selection evaluationはproject名を含まない12 task、同一5分budget、同
 
 最初の修正公開後、public run `29953586372`はexit 127となり、missing quality-gate toolという第二のportable CI境界を確定した。同じmaintain runでpublisher Zigのfull gateを再度通し、exact CI tool installを含むclean substantive commitをbrokerで公開してpublic main CIとrelease assetを再確認する。
 
+### 2026-08-08T15:57:00Z — release repair input guard
+
+- Added a non-empty `TAG_NAME` guard before release packaging and a publisher-smoke regression assertion. Manual and `repository_dispatch` repairs now fail closed before producing assets when their required tag input is absent.
+
 ### 2026-08-08T14:28:00Z — clean-checkout quickstart repair
 
 - READMEのclean checkout quickstartを実機相当で確認し、出力先 `./bin` を作成せず `go build -o ./bin/...` を実行するため、fresh checkoutでは最初の有用な診断前に失敗する導入欠陥を特定した。
