@@ -26,6 +26,7 @@ yq -e '.runs.using == "composite" and .inputs.binary.required == true and .input
 yq -e '.on["release"].types[0] == "published" and .on.workflow_dispatch.inputs.tagName.required == true and .on.repository_dispatch.types[0] == "kento_release_repair"' .github/workflows/release.yml >/dev/null
 scripts/test-policy.sh
 scripts/policy-gate.sh
+tests/quickstart-contract.sh
 go build -o bin/otelcol-confmap-promotion ./cmd/otelcol-confmap-promotion
 go build -o bin/otelcol-confmap-promotion-vet ./cmd/otelcol-confmap-promotion-vet
 scripts/action-smoke.sh

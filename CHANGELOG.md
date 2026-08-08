@@ -4,6 +4,7 @@ All notable changes will be documented here. The project follows Semantic Versio
 
 ## Unreleased
 
+- Make the clean-checkout quick start create `./bin` before the first build.
 - Move the exact-version source and release installation paths into the README first screen, and fail the publisher gate if installation appears after the quick start or points at a stale release.
 - Correct the public project status and checksum-verified install examples for v0.1.2, and fail the publisher smoke test if the README regresses to an unpublished claim.
 - Make top-level and `check --help` discoverable, complete, and successful without loading a package; cover text, JSON, SARIF, limits, tests, and timeout options in the tested usage contract.

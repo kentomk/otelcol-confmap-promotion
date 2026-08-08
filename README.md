@@ -46,6 +46,7 @@ verification succeeds; do not execute an archive that fails the check.
 This 60-second path starts from a clean checkout with Go 1.26 or newer:
 
 ```sh
+mkdir -p ./bin
 go build -o ./bin/otelcol-confmap-promotion ./cmd/otelcol-confmap-promotion
 ./bin/otelcol-confmap-promotion check ./testdata/fixtures/unsafe-anonymous || test "$?" -eq 1
 ```

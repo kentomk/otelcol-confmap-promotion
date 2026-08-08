@@ -320,6 +320,12 @@ Selection evaluationはproject名を含まない12 task、同一5分budget、同
 
 最初の修正公開後、public run `29953586372`はexit 127となり、missing quality-gate toolという第二のportable CI境界を確定した。同じmaintain runでpublisher Zigのfull gateを再度通し、exact CI tool installを含むclean substantive commitをbrokerで公開してpublic main CIとrelease assetを再確認する。
 
+### 2026-08-08T14:28:00Z — clean-checkout quickstart repair
+
+- READMEのclean checkout quickstartを実機相当で確認し、出力先 `./bin` を作成せず `go build -o ./bin/...` を実行するため、fresh checkoutでは最初の有用な診断前に失敗する導入欠陥を特定した。
+- Quick startへ `mkdir -p ./bin` を追加し、`tests/quickstart-contract.sh` をquality gateとpublisher smokeへ組み込んで、READMEのbuild順序を回帰検査する。
+- 変更はpublisher gate、公開main CI、release asset再確認まで通した後に反映する。metricsは14日windowでclones 23、unique clones 16、release downloads 0、直接採用なしのためtrial／weakを維持する。
+
 ### 2026-07-23T10:08:00Z — machine-verifiable CLI help maintenance
 
 - Top-level `--help`、`-h`、`help`と`check --help`が従来exit 2となり、top-level usageが実装済みSARIF、test-aware mode、resource limit、timeoutを列挙しない導入摩擦を再現した。Package load前にCLI contractだけを確認するinstaller／automationが成功判定できない状態だった。
