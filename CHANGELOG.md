@@ -4,6 +4,7 @@ All notable changes will be documented here. The project follows Semantic Versio
 
 ## Unreleased
 
+- Pin the copy-ready composite Action example to the current successful public main and reject the superseded revision in publisher smoke.
 - Fail closed when a manual or broker-triggered release repair omits the required tag before packaging assets.
 - Make the clean-checkout quick start create `./bin` before the first build.
 - Move the exact-version source and release installation paths into the README first screen, and fail the publisher gate if installation appears after the quick start or points at a stale release.
