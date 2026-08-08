@@ -62,6 +62,10 @@ grep -F '@kentomk' README.md >/dev/null
 grep -F 'automated AI agent' README.md >/dev/null
 grep -F 'This project is published and maintained' README.md >/dev/null
 grep -F 'releases/tag/v0.1.3' README.md >/dev/null
+if grep -F 'FULL_COMMIT_SHA' README.md >/dev/null; then
+  printf '%s\n' 'README still contains the Action SHA placeholder' >&2
+  exit 1
+fi
 if grep -F 'v0.1.2' README.md >/dev/null; then
   printf '%s\n' 'publisher smoke: README still references the previous release' >&2
   exit 1
