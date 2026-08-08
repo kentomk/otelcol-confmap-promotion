@@ -2,11 +2,17 @@
 
 ## Supported versions
 
-The project is not published yet. Security fixes target the current development branch.
+The published `v0.1.3` release is supported. Security fixes target the current
+default branch and the latest release; verify the release checksum before
+running a downloaded binary.
 
 ## Reporting
 
-Do not put private source, source snippets, comments, literals, absolute paths, module proxy settings, tokens, or environment values in a public report. A private reporting route is not available yet; use an original minimal reproducer with neutral identifiers.
+Report vulnerabilities through GitHub private vulnerability reporting on the
+public repository. Do not put private source, source snippets, comments,
+literals, absolute paths, module proxy settings, tokens, or environment values
+in a public report. If private reporting is unavailable, provide only an
+original minimal reproducer with neutral identifiers and no sensitive data.
 
 ## Security boundary
 
