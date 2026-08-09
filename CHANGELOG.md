@@ -4,6 +4,7 @@ All notable changes will be documented here. The project follows Semantic Versio
 
 ## Unreleased
 
+- Refresh the immutable Action example to public main `8b276a02` and reject the superseded `5a20c1a` pin in publisher smoke.
 - Create the user binary directory before the copy-ready archive install commands run in a fresh home directory.
 - Refresh the immutable Action example to the current successful public-main revision and reject the superseded pin in publisher smoke.
 - Pin the copy-ready composite Action example to the current successful public main and reject the superseded revision in publisher smoke.
