@@ -1,5 +1,10 @@
 # otelcol-confmap-promotion status
 
+### 2026-08-09T06:14:00Z — current Action revision alignment
+
+- Broker status showed public main `c7c98def38fa87494dc20d3e4de615bda797e450` with successful CI, while the README Action example still referenced superseded public main `8b276a026b71e001563543884cd70b79333c69df`.
+- Synchronized the copy-ready immutable Action pin and publisher regression to the broker-verified current main. Runtime behavior, release contents, and adoption claims are unchanged.
+
 ## Project metadata
 
 - Finding ID: `20260720T061437Z-0e92`
