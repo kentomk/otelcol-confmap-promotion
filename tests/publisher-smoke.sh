@@ -65,7 +65,7 @@ grep -F 'releases/tag/v0.1.3' README.md >/dev/null
 grep -F 'sha256sum --check --strict -' README.md >/dev/null
 grep -F 'curl -fsSLo SHA256SUMS' README.md >/dev/null
 grep -F "mkdir -p \"\$HOME/.local/bin\"" README.md >/dev/null
-grep -F 'kentomk/otelcol-confmap-promotion@fda19f6c41a2e2b27c00348abafeaa4483d91abb' README.md >/dev/null
+grep -F 'kentomk/otelcol-confmap-promotion@35f979624899ffe2c16e45140f5652ddda014bff' README.md >/dev/null
 if grep -F 'kentomk/otelcol-confmap-promotion@5a20c1aea989084458c779c3ca625469809c0a12' README.md >/dev/null; then
   printf '%s\n' 'publisher smoke: README still pins the superseded public Action revision' >&2
   exit 1
@@ -75,6 +75,10 @@ if grep -F 'kentomk/otelcol-confmap-promotion@7c503b5016f7e7102d1a25d06ffdf35071
   exit 1
 fi
 if grep -F 'kentomk/otelcol-confmap-promotion@b522cb5f92a0d696ef7c8a9ef9a4f60353e9b9dc' README.md >/dev/null; then
+  printf '%s\n' 'publisher smoke: README still pins the superseded public Action revision' >&2
+  exit 1
+fi
+if grep -F 'kentomk/otelcol-confmap-promotion@fda19f6c41a2e2b27c00348abafeaa4483d91abb' README.md >/dev/null; then
   printf '%s\n' 'publisher smoke: README still pins the superseded public Action revision' >&2
   exit 1
 fi

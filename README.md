@@ -116,7 +116,7 @@ With `--tests`, declarations from an external `_test` package are reported as an
 The composite Action runs either executable without downloading packages or binaries. The caller must first place a checksum-verified CLI or vettool binary in the workspace, then pin this Action to a full commit SHA:
 
 ```yaml
-- uses: kentomk/otelcol-confmap-promotion@fda19f6c41a2e2b27c00348abafeaa4483d91abb # current public main
+- uses: kentomk/otelcol-confmap-promotion@35f979624899ffe2c16e45140f5652ddda014bff # current public main
   with:
     binary: ./tools/otelcol-confmap-promotion
     route: cli

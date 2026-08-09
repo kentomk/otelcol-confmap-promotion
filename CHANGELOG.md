@@ -38,3 +38,4 @@ All notable changes will be documented here. The project follows Semantic Versio
 - Add fail-closed runtime module/license inventory, official advisory scan, tracked-secret detection, full-SHA workflow policy, and release binary provenance checks.
 - Add a checksum-pinned executable comparison against otelcorecol validate, Go vet, Staticcheck, and schemagen that fixes the analyzer's narrow source-ownership gap.
 - Add a reproducible 12-task controlled agent-selection fixture that separates discovery, qualification, install, and task/test outcomes without treating the result as adoption.
+- Align the copy-ready immutable Action example and publisher smoke with public main `35f979624899ffe2c16e45140f5652ddda014bff`.
