@@ -1,5 +1,7 @@
 # Changelog
 
+- Align the copy-ready immutable Action example and publisher smoke with public main `fda19f6c`.
+
 All notable changes will be documented here. The project follows Semantic Versioning after its first public release.
 
 ## Unreleased
