@@ -6,6 +6,7 @@ All notable changes will be documented here. The project follows Semantic Versio
 
 ## Unreleased
 
+- Harden the publisher smoke test to validate any lowercase full-SHA Action pin instead of freezing an obsolete public-main commit.
 - Add a clean-checkout vettool quickstart smoke that builds the bundled `go vet` analyzer and verifies its `OCP001` exit contract before publication.
 - Refresh the immutable Action example to public main `8b276a02` and reject the superseded `5a20c1a` pin in publisher smoke.
 - Create the user binary directory before the copy-ready archive install commands run in a fresh home directory.

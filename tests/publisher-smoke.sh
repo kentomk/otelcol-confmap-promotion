@@ -65,7 +65,12 @@ grep -F 'releases/tag/v0.1.3' README.md >/dev/null
 grep -F 'sha256sum --check --strict -' README.md >/dev/null
 grep -F 'curl -fsSLo SHA256SUMS' README.md >/dev/null
 grep -F "mkdir -p \"\$HOME/.local/bin\"" README.md >/dev/null
-grep -F 'kentomk/otelcol-confmap-promotion@35f979624899ffe2c16e45140f5652ddda014bff' README.md >/dev/null
+action_ref=$(grep -oE 'kentomk/otelcol-confmap-promotion@[0-9a-f]{40}' README.md | head -n 1 | cut -d@ -f2)
+[[ "$action_ref" =~ ^[0-9a-f]{40}$ ]] || {
+  printf '%s\n' 'publisher smoke: README must pin the Action to a lowercase full commit SHA' >&2
+  exit 1
+}
+grep -F 'kentomk/otelcol-confmap-promotion@' README.md >/dev/null
 if grep -F 'kentomk/otelcol-confmap-promotion@5a20c1aea989084458c779c3ca625469809c0a12' README.md >/dev/null; then
   printf '%s\n' 'publisher smoke: README still pins the superseded public Action revision' >&2
   exit 1
