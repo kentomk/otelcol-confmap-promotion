@@ -371,3 +371,9 @@ Broker経由でpublic mainへ更新し、current commitのCI成功後にv0.1.3�
 
 - The README quickstart previously had only a text contract for creating `./bin` and building the CLI; it did not execute the clean-checkout command or assert the first diagnostic and exit contract.
 - Added `tests/quickstart-clean.sh` and included it in publisher smoke. It archives the current tree, builds from the clean checkout, runs the original unsafe fixture, and requires `OCP001` with exit `1`.
+
+### 2026-08-09T17:20:00Z — executable vettool quickstart regression
+
+- The README documented `go vet -vettool`, but the clean-checkout smoke covered only the CLI path; a broken vettool build or exit contract could reach publication unnoticed.
+- Added `tests/vettool-quickstart.sh`, which archives the current tree, builds the bundled vettool with `GOPROXY=off`, runs the original unsafe fixture through the standard vet protocol, and requires `OCP001` with exit `1`.
+- Added the copy-ready clean-checkout vettool command to the README and wired the smoke into publisher validation. CLI behavior, supported packages, and the network-free runtime boundary are unchanged.

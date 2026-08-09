@@ -6,6 +6,7 @@ All notable changes will be documented here. The project follows Semantic Versio
 
 ## Unreleased
 
+- Add a clean-checkout vettool quickstart smoke that builds the bundled `go vet` analyzer and verifies its `OCP001` exit contract before publication.
 - Refresh the immutable Action example to public main `8b276a02` and reject the superseded `5a20c1a` pin in publisher smoke.
 - Create the user binary directory before the copy-ready archive install commands run in a fresh home directory.
 - Refresh the immutable Action example to the current successful public-main revision and reject the superseded pin in publisher smoke.

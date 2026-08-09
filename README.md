@@ -60,6 +60,15 @@ OCP001 warning testdata/fixtures/unsafe-anonymous/fixture.go: Config promotes He
 
 The fixture is original test code. It models the Go type relationship only; it does not copy upstream Collector source, tests, or configuration.
 
+The release archive includes the same analyzer as a standard `go vet` tool. From a clean checkout, build it and verify the same fixture through the vet protocol:
+
+```sh
+go build -o ./bin/otelcol-confmap-promotion-vet ./cmd/otelcol-confmap-promotion-vet
+GOPROXY=off go vet -vettool="$(pwd)/bin/otelcol-confmap-promotion-vet" ./testdata/fixtures/unsafe-anonymous
+```
+
+This command exits `1` and reports `OCP001`; it does not change the CLI's JSON, SARIF, or unknown contracts.
+
 ## Safe and intentional examples
 
 ```sh

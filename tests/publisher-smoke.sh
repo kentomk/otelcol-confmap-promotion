@@ -81,6 +81,7 @@ fi
 grep -Fq "test -n \"\$TAG_NAME\"" .github/workflows/release.yml
 tests/quickstart-contract.sh
 tests/quickstart-clean.sh
+tests/vettool-quickstart.sh
 grep -F 'The published' SECURITY.md >/dev/null
 grep -F 'v0.1.3' SECURITY.md >/dev/null
 if grep -F 'not published yet' SECURITY.md >/dev/null; then
