@@ -5,6 +5,7 @@ All notable changes will be documented here. The project follows Semantic Versio
 ## Unreleased
 
 - Create the user binary directory before the copy-ready archive install commands run in a fresh home directory.
+- Refresh the immutable Action example to the current successful public-main revision and reject the superseded pin in publisher smoke.
 - Pin the copy-ready composite Action example to the current successful public main and reject the superseded revision in publisher smoke.
 - Refresh the immutable Action example to public main `7c503b5` and reject the prior `dc66cb7` pin in publisher smoke.
 - Fail closed when a manual or broker-triggered release repair omits the required tag before packaging assets.
