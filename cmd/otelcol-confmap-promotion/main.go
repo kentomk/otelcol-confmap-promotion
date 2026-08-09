@@ -243,10 +243,10 @@ func scanWithLimits(patterns []string, includeTests bool, limits reportLimits, t
 	}
 	output.Packages = uniqueStrings(output.Packages)
 	sort.Slice(output.Diagnostics, func(i, j int) bool {
-		return output.Diagnostics[i].Location+output.Diagnostics[i].ParentType < output.Diagnostics[j].Location+output.Diagnostics[j].ParentType
+		return diagnosticOrderKey(output.Diagnostics[i]) < diagnosticOrderKey(output.Diagnostics[j])
 	})
 	sort.Slice(output.Unknowns, func(i, j int) bool {
-		return output.Unknowns[i].Location+output.Unknowns[i].ParentType < output.Unknowns[j].Location+output.Unknowns[j].ParentType
+		return unknownOrderKey(output.Unknowns[i]) < unknownOrderKey(output.Unknowns[j])
 	})
 	output.Summary = summary{Packages: len(output.Packages), Diagnostics: len(output.Diagnostics), Unknowns: len(output.Unknowns)}
 	output.Unknowns = dedupeUnknowns(output.Unknowns)
@@ -333,7 +333,7 @@ func dedupeDiagnostics(values []analyzer.Diagnostic) []analyzer.Diagnostic {
 	output := values[:0]
 	seen := make(map[string]bool)
 	for _, value := range values {
-		key := value.Location + "\x00" + value.ParentType + "\x00" + value.MethodOwner
+		key := diagnosticKey(value)
 		if !seen[key] {
 			seen[key] = true
 			output = append(output, value)
@@ -345,7 +345,7 @@ func dedupeDiagnostics(values []analyzer.Diagnostic) []analyzer.Diagnostic {
 func dedupeUnknowns(values []analyzer.Unknown) []analyzer.Unknown {
 	byKey := make(map[string]analyzer.Unknown)
 	for _, value := range values {
-		key := value.Location + "\x00" + value.ParentType + "\x00" + value.MethodOwner
+		key := unknownKey(value)
 		current, exists := byKey[key]
 		if !exists || strings.Contains(value.Reason, "candidate names all fields") {
 			byKey[key] = value
@@ -358,7 +358,23 @@ func dedupeUnknowns(values []analyzer.Unknown) []analyzer.Unknown {
 		output = append(output, value)
 	}
 	sort.Slice(output, func(i, j int) bool {
-		return output[i].Location+output[i].ParentType < output[j].Location+output[j].ParentType
+		return unknownOrderKey(output[i]) < unknownOrderKey(output[j])
 	})
 	return output
+}
+
+func diagnosticKey(value analyzer.Diagnostic) string {
+	return strings.Join([]string{value.Location, value.Package, value.ParentType, value.EmbeddedType, value.MethodOwner, value.Mechanism, strings.Join(value.Siblings, "\x1f")}, "\x00")
+}
+
+func diagnosticOrderKey(value analyzer.Diagnostic) string {
+	return diagnosticKey(value) + "\x00" + value.Message
+}
+
+func unknownKey(value analyzer.Unknown) string {
+	return strings.Join([]string{value.Location, value.Package, value.ParentType, value.EmbeddedType, value.MethodOwner, strings.Join(value.Siblings, "\x1f")}, "\x00")
+}
+
+func unknownOrderKey(value analyzer.Unknown) string {
+	return unknownKey(value) + "\x00" + value.Reason
 }

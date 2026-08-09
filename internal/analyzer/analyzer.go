@@ -171,12 +171,28 @@ func ScanWithLimits(fset *token.FileSet, pkg *types.Package, files []*ast.File, 
 		}
 	}
 	sort.Slice(result.Diagnostics, func(i, j int) bool {
-		return result.Diagnostics[i].Location+result.Diagnostics[i].ParentType < result.Diagnostics[j].Location+result.Diagnostics[j].ParentType
+		return diagnosticOrderKey(result.Diagnostics[i]) < diagnosticOrderKey(result.Diagnostics[j])
 	})
 	sort.Slice(result.Unknowns, func(i, j int) bool {
-		return result.Unknowns[i].Location+result.Unknowns[i].ParentType < result.Unknowns[j].Location+result.Unknowns[j].ParentType
+		return unknownOrderKey(result.Unknowns[i]) < unknownOrderKey(result.Unknowns[j])
 	})
 	return result, nil
+}
+
+func diagnosticKey(value Diagnostic) string {
+	return strings.Join([]string{value.Location, value.Package, value.ParentType, value.EmbeddedType, value.MethodOwner, value.Mechanism, strings.Join(value.Siblings, "\x1f")}, "\x00")
+}
+
+func diagnosticOrderKey(value Diagnostic) string {
+	return diagnosticKey(value) + "\x00" + value.Message
+}
+
+func unknownKey(value Unknown) string {
+	return strings.Join([]string{value.Location, value.Package, value.ParentType, value.EmbeddedType, value.MethodOwner, strings.Join(value.Siblings, "\x1f")}, "\x00")
+}
+
+func unknownOrderKey(value Unknown) string {
+	return unknownKey(value) + "\x00" + value.Reason
 }
 
 func declaredConfmapUnmarshal(named *types.Named) *types.Func {

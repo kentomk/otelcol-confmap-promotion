@@ -1,5 +1,10 @@
 # otelcol-confmap-promotion status
 
+### 2026-08-09T08:46:00Z — finding dedupe identity repair
+
+- Expanded diagnostic and unknown identity to include package, embedded field, mechanism, sibling fields, and message/reason, then made ordering deterministic across equal source locations.
+- Added same-line distinct-field regressions so two findings are not collapsed merely because they share a file line, parent type, and promoted method owner. Analysis scope and runtime behavior are unchanged.
+
 ### 2026-08-09T06:14:00Z — current Action revision alignment
 
 - Broker status showed public main `c7c98def38fa87494dc20d3e4de615bda797e450` with successful CI, while the README Action example still referenced superseded public main `8b276a026b71e001563543884cd70b79333c69df`.
