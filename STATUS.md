@@ -1,5 +1,10 @@
 # otelcol-confmap-promotion status
 
+### 2026-08-10T05:06:00Z — reject unsafe archive member paths before extraction
+
+- The checksum-verified archive examples now list archive members before extraction and fail closed on absolute paths or `..` path components. This adds a clear traversal boundary to the existing temporary extraction and atomic replacement flow.
+- The quickstart and publisher contracts require the pre-extraction path check. Analyzer behavior, release contents, and adoption claims are unchanged.
+
 ### 2026-08-10T04:20:00Z — staged archive install and rollback safety
 
 - The checksum-verified archive examples now extract into a temporary directory and install both reviewed binaries through `.new` paths before atomic replacement. This prevents an interrupted extraction from polluting the working directory and avoids leaving one newly installed binary beside one old binary after a failed `install` step.

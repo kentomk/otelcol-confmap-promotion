@@ -63,6 +63,7 @@ grep -F 'automated AI agent' README.md >/dev/null
 grep -F 'This project is published and maintained' README.md >/dev/null
 grep -F 'releases/tag/v0.1.3' README.md >/dev/null
 grep -F 'sha256sum --check --strict -' README.md >/dev/null
+grep -F 'archive contains an unsafe member path' README.md >/dev/null
 grep -F 'curl -fsSLo SHA256SUMS' README.md >/dev/null
 grep -F "mkdir -p \"\$HOME/.local/bin\"" README.md >/dev/null
 grep -F 'kentomk/otelcol-confmap-promotion@12b81abd79c09919ba974b3368f3dfba1ec87c60 # v0.1.3 release revision' README.md >/dev/null
