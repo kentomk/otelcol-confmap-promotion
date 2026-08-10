@@ -6,11 +6,20 @@ cd "$project_root"
 
 scripts/scan-tracked-secrets.sh "$project_root"
 
-if ! command -v govulncheck >/dev/null 2>&1; then
-  echo 'policy gate: govulncheck v1.6.0 is required' >&2
+scanner=''
+if command -v govulncheck >/dev/null 2>&1; then
+  scanner=$(command -v govulncheck)
+else
+  go_path=$(go env GOPATH)
+  if [[ -n "$go_path" && "$go_path" == /* && -x "$go_path/bin/govulncheck" ]]; then
+    scanner="$go_path/bin/govulncheck"
+  fi
+fi
+if [[ -z "$scanner" ]]; then
+  echo 'policy gate: govulncheck v1.6.0 is required on PATH or in the Go workspace bin directory' >&2
   exit 2
 fi
-scanner_version=$(govulncheck -version 2>&1 | awk '/^Scanner: / {print $2}')
+scanner_version=$("$scanner" -version 2>&1 | awk '/^Scanner: / {print $2}')
 if [[ "$scanner_version" != 'govulncheck@v1.6.0' ]]; then
   printf 'policy gate: expected govulncheck@v1.6.0, got %s\n' "${scanner_version:-unknown}" >&2
   exit 2
@@ -61,5 +70,5 @@ while IFS=$'\t' read -r module version license expected_hash; do
   fi
 done <policy/runtime-dependencies.tsv
 
-govulncheck -mode=source -scan=symbol ./...
+"$scanner" -mode=source -scan=symbol ./...
 printf 'policy gate passed: runtime_modules=3 licenses=BSD-3-Clause workflow_pins=full-sha scanner=%s\n' "$scanner_version"

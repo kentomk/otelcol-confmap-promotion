@@ -159,7 +159,7 @@ A named nested helper without `squash` is not method promotion and is not report
 
 The analyzer parses and type-checks local source; it does not execute package code or a Collector. Treat source identifiers and paths as potentially sensitive even though source bodies are omitted. Run it in a credential-free CI job for untrusted contributions. See [SECURITY.md](SECURITY.md).
 
-The maintainer gate compares the exact three modules embedded in both binaries with `policy/runtime-dependencies.tsv`, verifies their BSD-3-Clause license text hashes, rejects credential-like values in tracked text files, requires full-SHA workflow actions, and runs the official `govulncheck` v1.6.0 symbol scan. Release archives are also checked for exact dependency checksums and absence of VCS metadata. The vulnerability result is a time-bounded known-advisory check, not a guarantee that no vulnerability exists.
+The maintainer gate compares the exact three modules embedded in both binaries with `policy/runtime-dependencies.tsv`, verifies their BSD-3-Clause license text hashes, rejects credential-like values in tracked text files, requires full-SHA workflow actions, and runs the official `govulncheck` v1.6.0 symbol scan. The scanner may be on `PATH` or at `$(go env GOPATH)/bin/govulncheck`, so a login-shell PATH difference does not change the gate result. Release archives are also checked for exact dependency checksums and absence of VCS metadata. The vulnerability result is a time-bounded known-advisory check, not a guarantee that no vulnerability exists.
 
 ## Install, rollback, and uninstall
 

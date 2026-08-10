@@ -1,5 +1,10 @@
 # otelcol-confmap-promotion status
 
+### 2026-08-10T01:15:35Z — make vulnerability scanner discovery shell-independent
+
+- `scripts/policy-gate.sh` now resolves the exact `govulncheck@v1.6.0` from `PATH` first and then the absolute `$(go env GOPATH)/bin/govulncheck` workspace location. This keeps clean login-shell and broker-style environments equivalent without downloading tools or weakening the version check.
+- README and SECURITY document the same resolution contract. A sanitized `PATH` run passed policy, quality, quickstart, action, release, secret, and vulnerability gates with `No vulnerabilities found`.
+
 ### 2026-08-10T00:58:00Z — stabilize Action distribution pin
 
 - Replaced the README Action pin to moving public main with the immutable commit included in the published v0.1.3 release (`12b81abd79c09919ba974b3368f3dfba1ec87c60`).
