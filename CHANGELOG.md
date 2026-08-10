@@ -44,3 +44,6 @@ All notable changes will be documented here. The project follows Semantic Versio
 - Add a checksum-pinned executable comparison against otelcorecol validate, Go vet, Staticcheck, and schemagen that fixes the analyzer's narrow source-ownership gap.
 - Add a reproducible 12-task controlled agent-selection fixture that separates discovery, qualification, install, and task/test outcomes without treating the result as adoption.
 - Align the copy-ready immutable Action example and publisher smoke with public main `35f979624899ffe2c16e45140f5652ddda014bff`.
+## Unreleased
+
+- Stage checksum-verified archive extraction in a temporary directory and atomically replace both installed binaries, reducing partial-install and workspace-pollution risk.

@@ -1,5 +1,11 @@
 # otelcol-confmap-promotion status
 
+### 2026-08-10T04:20:00Z — staged archive install and rollback safety
+
+- The checksum-verified archive examples now extract into a temporary directory and install both reviewed binaries through `.new` paths before atomic replacement. This prevents an interrupted extraction from polluting the working directory and avoids leaving one newly installed binary beside one old binary after a failed `install` step.
+- README contract, clean quickstart, vettool quickstart, policy self-test, release reproducibility, and focused tests passed. The full quality gate is blocked only because `govulncheck v1.6.0` is absent from both `PATH` and the Go workspace bin; no download or scanner bypass was attempted.
+- The source change is local and not yet public; broker publication and public-main CI confirmation remain required before this maintenance step is counted as released.
+
 ### 2026-08-10T02:15:00Z — strict selected-archive checksum documentation
 
 - The copy-ready archive install and rollback examples previously piped every matching `SHA256SUMS` row into `sha256sum`, so a missing or duplicate selected-archive entry was not rejected as a distinct manifest-contract failure.

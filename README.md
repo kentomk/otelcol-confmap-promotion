@@ -33,10 +33,14 @@ curl -fsSLo SHA256SUMS "$base/SHA256SUMS"
 checksum_matches=$(grep -Ec "^[0-9a-fA-F]{64}  $archive$" SHA256SUMS || true)
 test "$checksum_matches" -eq 1 || { echo "expected exactly one checksum row for $archive" >&2; exit 2; }
 grep -E "^[0-9a-fA-F]{64}  $archive$" SHA256SUMS | sha256sum --check --strict -
-tar -xzf "$archive"
+extract_dir=$(mktemp -d)
+trap 'rm -rf "$extract_dir"' EXIT HUP INT TERM
+tar -xzf "$archive" -C "$extract_dir"
 mkdir -p "$HOME/.local/bin"
-install -m 0755 "otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion" "$HOME/.local/bin/otelcol-confmap-promotion"
-install -m 0755 "otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion-vet" "$HOME/.local/bin/otelcol-confmap-promotion-vet"
+install -m 0755 "$extract_dir/otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion" "$HOME/.local/bin/.otelcol-confmap-promotion.new"
+install -m 0755 "$extract_dir/otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion-vet" "$HOME/.local/bin/.otelcol-confmap-promotion-vet.new"
+mv -f "$HOME/.local/bin/.otelcol-confmap-promotion.new" "$HOME/.local/bin/otelcol-confmap-promotion"
+mv -f "$HOME/.local/bin/.otelcol-confmap-promotion-vet.new" "$HOME/.local/bin/otelcol-confmap-promotion-vet"
 otelcol-confmap-promotion --help
 ```
 
@@ -172,9 +176,11 @@ archive=otelcol-confmap-promotion_v0.1.3_linux_amd64.tar.gz
 checksum_matches=$(grep -Ec "^[0-9a-fA-F]{64}  $archive$" SHA256SUMS || true)
 test "$checksum_matches" -eq 1 || { echo "expected exactly one checksum row for $archive" >&2; exit 2; }
 grep -E "^[0-9a-fA-F]{64}  $archive$" SHA256SUMS | sha256sum --check --strict -
-tar -xzf otelcol-confmap-promotion_v0.1.3_linux_amd64.tar.gz
-./otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion version
-./otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion-vet version
+extract_dir=$(mktemp -d)
+trap 'rm -rf "$extract_dir"' EXIT HUP INT TERM
+tar -xzf "$archive" -C "$extract_dir"
+"$extract_dir/otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion" version
+"$extract_dir/otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion-vet" version
 ```
 
 Replace `linux_amd64` with `linux_arm64`, `darwin_amd64`, or `darwin_arm64` for another supported platform. Pin a version or checksum-verified release in CI. Roll back by restoring the prior archive or source version. Uninstall by removing both binaries and their CI step; the tool does not create config, cache, telemetry, or remote state.
