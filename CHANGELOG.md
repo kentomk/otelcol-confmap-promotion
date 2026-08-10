@@ -6,6 +6,9 @@ All notable changes will be documented here. The project follows Semantic Versio
 
 ## Unreleased
 
+- Make the exact `govulncheck v1.6.0` discovery portable across clean checkouts
+  by checking the project-local `bin/` location before the Go workspace bin.
+
 - Require exactly one selected archive row in the copy-ready SHA256SUMS verification commands, rejecting missing or duplicate rows before extraction.
 
 - Pin the copy-ready composite Action to the immutable v0.1.3 release revision instead of moving public main, preventing routine maintenance commits from invalidating the documented integration.

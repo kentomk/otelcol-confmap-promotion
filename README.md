@@ -123,6 +123,32 @@ With `--tests`, declarations from an external `_test` package are reported as an
 
 The composite Action runs either executable without downloading packages or binaries. The caller must first place a checksum-verified CLI or vettool binary in the workspace, then pin this Action to the immutable `v0.1.3` release revision:
 
+For a repository that checks out this source and already has its Go module
+dependencies available, this is a copy-ready offline setup. The build step
+creates the caller-supplied executable; the Action itself still performs no
+download or package resolution:
+
+```yaml
+- uses: actions/checkout@<full-sha>
+- name: Build the pinned preflight binary
+  shell: bash
+  run: |
+    mkdir -p "$RUNNER_TEMP/otelcol-tools"
+    GOTOOLCHAIN=local GOPROXY=off GOWORK=off go build -trimpath -buildvcs=false \
+      -o "$RUNNER_TEMP/otelcol-tools/otelcol-confmap-promotion" \
+      ./cmd/otelcol-confmap-promotion
+- uses: kentomk/otelcol-confmap-promotion@12b81abd79c09919ba974b3368f3dfba1ec87c60 # v0.1.3 release revision
+  with:
+    binary: ${{ runner.temp }}/otelcol-tools/otelcol-confmap-promotion
+    route: cli
+    packages: ./...
+    format: sarif
+```
+
+If the repository does not build this source, use the checksum-verified
+release archive from the Installation section and pass its installed binary
+instead. Do not replace `<full-sha>` with a moving branch reference.
+
 ```yaml
 - uses: kentomk/otelcol-confmap-promotion@12b81abd79c09919ba974b3368f3dfba1ec87c60 # v0.1.3 release revision
   with:
@@ -167,7 +193,7 @@ A named nested helper without `squash` is not method promotion and is not report
 
 The analyzer parses and type-checks local source; it does not execute package code or a Collector. Treat source identifiers and paths as potentially sensitive even though source bodies are omitted. Run it in a credential-free CI job for untrusted contributions. See [SECURITY.md](SECURITY.md).
 
-The maintainer gate compares the exact three modules embedded in both binaries with `policy/runtime-dependencies.tsv`, verifies their BSD-3-Clause license text hashes, rejects credential-like values in tracked text files, requires full-SHA workflow actions, and runs the official `govulncheck` v1.6.0 symbol scan. The scanner may be on `PATH` or at `$(go env GOPATH)/bin/govulncheck`, so a login-shell PATH difference does not change the gate result. Release archives are also checked for exact dependency checksums and absence of VCS metadata. The vulnerability result is a time-bounded known-advisory check, not a guarantee that no vulnerability exists.
+The maintainer gate compares the exact three modules embedded in both binaries with `policy/runtime-dependencies.tsv`, verifies their BSD-3-Clause license text hashes, rejects credential-like values in tracked text files, requires full-SHA workflow actions, and runs the official `govulncheck` v1.6.0 symbol scan. The scanner may be on `PATH`, at `bin/govulncheck` in the checkout, or at `$(go env GOPATH)/bin/govulncheck`, so a login-shell PATH difference does not change the gate result. Release archives are also checked for exact dependency checksums and absence of VCS metadata. The vulnerability result is a time-bounded known-advisory check, not a guarantee that no vulnerability exists.
 
 ## Install, rollback, and uninstall
 

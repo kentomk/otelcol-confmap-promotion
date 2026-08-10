@@ -1,5 +1,15 @@
 # otelcol-confmap-promotion status
 
+### 2026-08-10T08:20:00Z — make vulnerability scanner discovery checkout-portable
+
+- The policy and publisher gates now discover the pinned `govulncheck v1.6.0`
+  from `bin/govulncheck` in the checkout before falling back to the Go workspace
+  bin directory. This matches the broker checkout layout without downloading a
+  scanner or weakening the exact-version check.
+- Updated the English gate documentation and reran policy, quality, and
+  publisher smoke gates successfully. Analyzer behavior, release contents, and
+  adoption claims are unchanged.
+
 ### 2026-08-10T05:06:00Z — reject unsafe archive member paths before extraction
 
 - The checksum-verified archive examples now list archive members before extraction and fail closed on absolute paths or `..` path components. This adds a clear traversal boundary to the existing temporary extraction and atomic replacement flow.

@@ -67,6 +67,11 @@ grep -F 'archive contains an unsafe member path' README.md >/dev/null
 grep -F 'curl -fsSLo SHA256SUMS' README.md >/dev/null
 grep -F "mkdir -p \"\$HOME/.local/bin\"" README.md >/dev/null
 grep -F 'kentomk/otelcol-confmap-promotion@12b81abd79c09919ba974b3368f3dfba1ec87c60 # v0.1.3 release revision' README.md >/dev/null
+grep -F 'GOTOOLCHAIN=local GOPROXY=off GOWORK=off go build -trimpath -buildvcs=false' README.md >/dev/null
+# shellcheck disable=SC2016
+grep -F 'binary: ${{ runner.temp }}/otelcol-tools/otelcol-confmap-promotion' README.md >/dev/null
+# shellcheck disable=SC2016
+grep -F 'Do not replace `<full-sha>` with a moving branch reference.' README.md >/dev/null
 grep -Fq "test -n \"\$TAG_NAME\"" .github/workflows/release.yml
 tests/quickstart-contract.sh
 tests/quickstart-clean.sh

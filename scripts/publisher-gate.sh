@@ -25,13 +25,14 @@ for tool in actionlint jq shellcheck yq; do
 done
 
 go_path=$(go env GOPATH)
-[[ -n "$go_path" && "$go_path" == /* ]] || {
-  printf '%s\n' 'publisher gate requires an absolute Go workspace path' >&2
-  exit 1
-}
-scanner="$go_path/bin/govulncheck"
-[[ -x "$scanner" ]] || {
-  printf '%s\n' 'publisher gate requires govulncheck v1.6.0 in the Go workspace bin directory' >&2
+scanner=''
+if [[ -x "$project_root/bin/govulncheck" ]]; then
+  scanner="$project_root/bin/govulncheck"
+elif [[ -n "$go_path" && "$go_path" == /* && -x "$go_path/bin/govulncheck" ]]; then
+  scanner="$go_path/bin/govulncheck"
+fi
+[[ -n "$scanner" ]] || {
+  printf '%s\n' 'publisher gate requires govulncheck v1.6.0 in project bin or the Go workspace bin directory' >&2
   exit 1
 }
 

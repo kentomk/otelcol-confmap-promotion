@@ -10,13 +10,17 @@ scanner=''
 if command -v govulncheck >/dev/null 2>&1; then
   scanner=$(command -v govulncheck)
 else
-  go_path=$(go env GOPATH)
-  if [[ -n "$go_path" && "$go_path" == /* && -x "$go_path/bin/govulncheck" ]]; then
+  if [[ -x "$project_root/bin/govulncheck" ]]; then
+    scanner="$project_root/bin/govulncheck"
+  else
+    go_path=$(go env GOPATH)
+  fi
+  if [[ -z "$scanner" && -n "${go_path:-}" && "$go_path" == /* && -x "$go_path/bin/govulncheck" ]]; then
     scanner="$go_path/bin/govulncheck"
   fi
 fi
 if [[ -z "$scanner" ]]; then
-  echo 'policy gate: govulncheck v1.6.0 is required on PATH or in the Go workspace bin directory' >&2
+  echo 'policy gate: govulncheck v1.6.0 is required on PATH, in project bin, or in the Go workspace bin directory' >&2
   exit 2
 fi
 scanner_version=$("$scanner" -version 2>&1 | awk '/^Scanner: / {print $2}')
