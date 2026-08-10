@@ -1,5 +1,20 @@
 # otelcol-confmap-promotion status
 
+### 2026-08-10T12:10:00Z — make release-package checksum tooling portable
+
+- Reproducible archive creation now selects `sha256sum` on Linux or
+  `shasum -a 256` on macOS, and the release-package test uses the matching
+  verification command. This keeps the published Linux/macOS archive
+  contract executable on both supported development platforms.
+- No analyzer, release asset, or adoption claim changed; local quality and
+  broker publication remain required before this maintenance is counted as
+  public.
+
+### 2026-08-10T11:08:00Z — make archive checksum verification portable
+
+- The copy-ready archive install examples now select `sha256sum` on Linux or `shasum -a 256` on macOS, and fail closed when neither verifier is available.
+- Quickstart and publisher-smoke contracts cover both branches. Analyzer behavior, release contents, and adoption claims are unchanged; local quality and broker publication are required before this maintenance result is counted as public.
+
 ### 2026-08-10T10:55:00Z — reject symlink archive payloads before use
 
 - The Linux archive install and verification examples now require both extracted binaries to be regular non-symlink files before installation or version checks.

@@ -36,6 +36,15 @@ trap 'rm -rf -- "$build_root"' EXIT
 targets=(linux/amd64 linux/arm64 darwin/amd64 darwin/arm64)
 archives=()
 
+if command -v sha256sum >/dev/null 2>&1; then
+  checksum_command=(sha256sum)
+elif command -v shasum >/dev/null 2>&1; then
+  checksum_command=(shasum -a 256)
+else
+  echo 'package release requires sha256sum or shasum' >&2
+  exit 1
+fi
+
 for target in "${targets[@]}"; do
   target_os=${target%/*}
   target_arch=${target#*/}
@@ -65,7 +74,7 @@ done
 
 (
   cd "$output_directory"
-  sha256sum "${archives[@]}" >SHA256SUMS
+  "${checksum_command[@]}" "${archives[@]}" >SHA256SUMS
 )
 
 printf 'packaged %s reproducible archives for %s\n' "${#archives[@]}" "$version"

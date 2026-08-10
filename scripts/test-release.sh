@@ -6,6 +6,15 @@ test_root=$(mktemp -d)
 trap 'rm -rf -- "$test_root"' EXIT
 version=v0.1.0-test.1
 
+if command -v sha256sum >/dev/null 2>&1; then
+  checksum_check=(sha256sum --check)
+elif command -v shasum >/dev/null 2>&1; then
+  checksum_check=(shasum -a 256 -c)
+else
+  echo 'release test requires sha256sum or shasum' >&2
+  exit 1
+fi
+
 mkdir -p "$test_root/nonempty"
 printf '%s\n' sentinel >"$test_root/nonempty/keep.txt"
 set +e
@@ -39,7 +48,7 @@ done < <(find "$test_root/first" -maxdepth 1 -type f -name '*.tar.gz' | sort)
 
 (
   cd "$test_root/first"
-  sha256sum --check SHA256SUMS
+  "${checksum_check[@]}" SHA256SUMS
 )
 
 case "$(uname -s)/$(uname -m)" in

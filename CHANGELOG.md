@@ -6,6 +6,9 @@ All notable changes will be documented here. The project follows Semantic Versio
 
 ## Unreleased
 
+- Make reproducible archive manifest creation and release-package verification
+  portable across Linux `sha256sum` and macOS `shasum -a 256`.
+
 - Require both extracted archive binaries to be regular non-symlink files in
   the copy-ready install and verification examples, with publisher-smoke
   coverage for the fail-closed boundary.

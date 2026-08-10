@@ -63,7 +63,8 @@ grep -F '@kentomk' README.md >/dev/null
 grep -F 'automated AI agent' README.md >/dev/null
 grep -F 'This project is published and maintained' README.md >/dev/null
 grep -F 'releases/tag/v0.1.3' README.md >/dev/null
-grep -F 'sha256sum --check --strict -' README.md >/dev/null
+grep -F 'checksum_tool=(sha256sum --check --strict -)' README.md >/dev/null
+grep -F 'checksum_tool=(shasum -a 256 -c -)' README.md >/dev/null
 grep -F 'archive contains an unsafe member path' README.md >/dev/null
 grep -F 'test -f "$expected_binary" && test ! -L "$expected_binary"' README.md >/dev/null
 grep -F 'curl -fsSLo SHA256SUMS' README.md >/dev/null
