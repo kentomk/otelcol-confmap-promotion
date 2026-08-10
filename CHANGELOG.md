@@ -6,6 +6,8 @@ All notable changes will be documented here. The project follows Semantic Versio
 
 ## Unreleased
 
+- Pin the copy-ready composite Action to the immutable v0.1.3 release revision instead of moving public main, preventing routine maintenance commits from invalidating the documented integration.
+
 - Harden the publisher smoke test to validate any lowercase full-SHA Action pin instead of freezing an obsolete public-main commit.
 - Add a clean-checkout vettool quickstart smoke that builds the bundled `go vet` analyzer and verifies its `OCP001` exit contract before publication.
 - Refresh the immutable Action example to public main `8b276a02` and reject the superseded `5a20c1a` pin in publisher smoke.

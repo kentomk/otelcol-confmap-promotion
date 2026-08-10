@@ -113,10 +113,10 @@ With `--tests`, declarations from an external `_test` package are reported as an
 
 ## Offline GitHub Action
 
-The composite Action runs either executable without downloading packages or binaries. The caller must first place a checksum-verified CLI or vettool binary in the workspace, then pin this Action to a full commit SHA:
+The composite Action runs either executable without downloading packages or binaries. The caller must first place a checksum-verified CLI or vettool binary in the workspace, then pin this Action to the immutable `v0.1.3` release revision:
 
 ```yaml
-- uses: kentomk/otelcol-confmap-promotion@84a4a556fd47a6ae9e7324f67f7316550ff07474 # current public main
+- uses: kentomk/otelcol-confmap-promotion@12b81abd79c09919ba974b3368f3dfba1ec87c60 # v0.1.3 release revision
   with:
     binary: ./tools/otelcol-confmap-promotion
     route: cli

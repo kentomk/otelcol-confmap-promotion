@@ -1,5 +1,10 @@
 # otelcol-confmap-promotion status
 
+### 2026-08-10T00:58:00Z — stabilize Action distribution pin
+
+- Replaced the README Action pin to moving public main with the immutable commit included in the published v0.1.3 release (`12b81abd79c09919ba974b3368f3dfba1ec87c60`).
+- Updated the publisher smoke and English guidance to enforce the release-bound revision. Routine maintenance commits can now update main without another stale-pin repair; a future release is the explicit update point.
+
 ### 2026-08-09T08:46:00Z — finding dedupe identity repair
 
 - Expanded diagnostic and unknown identity to include package, embedded field, mechanism, sibling fields, and message/reason, then made ordering deterministic across equal source locations.

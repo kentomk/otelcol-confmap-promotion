@@ -65,28 +65,7 @@ grep -F 'releases/tag/v0.1.3' README.md >/dev/null
 grep -F 'sha256sum --check --strict -' README.md >/dev/null
 grep -F 'curl -fsSLo SHA256SUMS' README.md >/dev/null
 grep -F "mkdir -p \"\$HOME/.local/bin\"" README.md >/dev/null
-action_ref=$(grep -oE 'kentomk/otelcol-confmap-promotion@[0-9a-f]{40}' README.md | head -n 1 | cut -d@ -f2)
-[[ "$action_ref" =~ ^[0-9a-f]{40}$ ]] || {
-  printf '%s\n' 'publisher smoke: README must pin the Action to a lowercase full commit SHA' >&2
-  exit 1
-}
-grep -F 'kentomk/otelcol-confmap-promotion@' README.md >/dev/null
-if grep -F 'kentomk/otelcol-confmap-promotion@5a20c1aea989084458c779c3ca625469809c0a12' README.md >/dev/null; then
-  printf '%s\n' 'publisher smoke: README still pins the superseded public Action revision' >&2
-  exit 1
-fi
-if grep -F 'kentomk/otelcol-confmap-promotion@7c503b5016f7e7102d1a25d06ffdf35071e5069a' README.md >/dev/null; then
-  printf '%s\n' 'publisher smoke: README still pins the superseded public Action revision' >&2
-  exit 1
-fi
-if grep -F 'kentomk/otelcol-confmap-promotion@b522cb5f92a0d696ef7c8a9ef9a4f60353e9b9dc' README.md >/dev/null; then
-  printf '%s\n' 'publisher smoke: README still pins the superseded public Action revision' >&2
-  exit 1
-fi
-if grep -F 'kentomk/otelcol-confmap-promotion@fda19f6c41a2e2b27c00348abafeaa4483d91abb' README.md >/dev/null; then
-  printf '%s\n' 'publisher smoke: README still pins the superseded public Action revision' >&2
-  exit 1
-fi
+grep -F 'kentomk/otelcol-confmap-promotion@12b81abd79c09919ba974b3368f3dfba1ec87c60 # v0.1.3 release revision' README.md >/dev/null
 grep -Fq "test -n \"\$TAG_NAME\"" .github/workflows/release.yml
 tests/quickstart-contract.sh
 tests/quickstart-clean.sh
