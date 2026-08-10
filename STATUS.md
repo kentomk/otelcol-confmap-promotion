@@ -1,5 +1,11 @@
 # otelcol-confmap-promotion status
 
+### 2026-08-10T02:15:00Z — strict selected-archive checksum documentation
+
+- The copy-ready archive install and rollback examples previously piped every matching `SHA256SUMS` row into `sha256sum`, so a missing or duplicate selected-archive entry was not rejected as a distinct manifest-contract failure.
+- Added an exact-one-row check for the selected archive filename before checksum verification, preserving the fail-closed install boundary and avoiding extraction of an ambiguously documented archive. The quickstart contract now checks the new command shape.
+- Runtime analyzer behavior, release assets, and adoption claims are unchanged. The next publish must reflect the local commit through the broker before this maintenance result is considered public.
+
 ### 2026-08-10T01:15:35Z — make vulnerability scanner discovery shell-independent
 
 - `scripts/policy-gate.sh` now resolves the exact `govulncheck@v1.6.0` from `PATH` first and then the absolute `$(go env GOPATH)/bin/govulncheck` workspace location. This keeps clean login-shell and broker-style environments equivalent without downloading tools or weakening the version check.

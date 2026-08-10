@@ -30,7 +30,9 @@ archive=otelcol-confmap-promotion_v0.1.3_linux_amd64.tar.gz
 base=https://github.com/kentomk/otelcol-confmap-promotion/releases/download/v0.1.3
 curl -fsSL "$base/$archive" -o "$archive"
 curl -fsSLo SHA256SUMS "$base/SHA256SUMS"
-grep "  $archive$" SHA256SUMS | sha256sum --check --strict -
+checksum_matches=$(grep -Ec "^[0-9a-fA-F]{64}  $archive$" SHA256SUMS || true)
+test "$checksum_matches" -eq 1 || { echo "expected exactly one checksum row for $archive" >&2; exit 2; }
+grep -E "^[0-9a-fA-F]{64}  $archive$" SHA256SUMS | sha256sum --check --strict -
 tar -xzf "$archive"
 mkdir -p "$HOME/.local/bin"
 install -m 0755 "otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion" "$HOME/.local/bin/otelcol-confmap-promotion"
@@ -166,7 +168,10 @@ The maintainer gate compares the exact three modules embedded in both binaries w
 Each release provides Linux and macOS archives for amd64 and arm64. Every archive contains both `otelcol-confmap-promotion` and `otelcol-confmap-promotion-vet`, plus the README, license, and security policy. Verify the selected archive before extraction:
 
 ```sh
-grep 'otelcol-confmap-promotion_v0.1.3_linux_amd64.tar.gz$' SHA256SUMS | sha256sum --check --strict -
+archive=otelcol-confmap-promotion_v0.1.3_linux_amd64.tar.gz
+checksum_matches=$(grep -Ec "^[0-9a-fA-F]{64}  $archive$" SHA256SUMS || true)
+test "$checksum_matches" -eq 1 || { echo "expected exactly one checksum row for $archive" >&2; exit 2; }
+grep -E "^[0-9a-fA-F]{64}  $archive$" SHA256SUMS | sha256sum --check --strict -
 tar -xzf otelcol-confmap-promotion_v0.1.3_linux_amd64.tar.gz
 ./otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion version
 ./otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion-vet version
