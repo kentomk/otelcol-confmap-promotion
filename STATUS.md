@@ -1,5 +1,10 @@
 # otelcol-confmap-promotion status
 
+### 2026-08-10T10:55:00Z — reject symlink archive payloads before use
+
+- The Linux archive install and verification examples now require both extracted binaries to be regular non-symlink files before installation or version checks.
+- Added quickstart and publisher-smoke coverage for the regular-file boundary. Analyzer behavior, release assets, support matrix, and adoption claims are unchanged. Local quality and broker publication are required before this maintenance is counted as public.
+
 ### 2026-08-10T08:20:00Z — make vulnerability scanner discovery checkout-portable
 
 - The policy and publisher gates now discover the pinned `govulncheck v1.6.0`

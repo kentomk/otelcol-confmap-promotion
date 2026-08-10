@@ -6,6 +6,10 @@ All notable changes will be documented here. The project follows Semantic Versio
 
 ## Unreleased
 
+- Require both extracted archive binaries to be regular non-symlink files in
+  the copy-ready install and verification examples, with publisher-smoke
+  coverage for the fail-closed boundary.
+
 - Make the exact `govulncheck v1.6.0` discovery portable across clean checkouts
   by checking the project-local `bin/` location before the Go workspace bin.
 

@@ -38,9 +38,14 @@ test -z "$unsafe_member" || { echo 'archive contains an unsafe member path' >&2;
 extract_dir=$(mktemp -d)
 trap 'rm -rf "$extract_dir"' EXIT HUP INT TERM
 tar -xzf "$archive" -C "$extract_dir"
+expected_cli="$extract_dir/otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion"
+expected_vet="$extract_dir/otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion-vet"
+for expected_binary in "$expected_cli" "$expected_vet"; do
+  test -f "$expected_binary" && test ! -L "$expected_binary" || { echo 'archive binary is not a regular file' >&2; exit 2; }
+done
 mkdir -p "$HOME/.local/bin"
-install -m 0755 "$extract_dir/otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion" "$HOME/.local/bin/.otelcol-confmap-promotion.new"
-install -m 0755 "$extract_dir/otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion-vet" "$HOME/.local/bin/.otelcol-confmap-promotion-vet.new"
+install -m 0755 "$expected_cli" "$HOME/.local/bin/.otelcol-confmap-promotion.new"
+install -m 0755 "$expected_vet" "$HOME/.local/bin/.otelcol-confmap-promotion-vet.new"
 mv -f "$HOME/.local/bin/.otelcol-confmap-promotion.new" "$HOME/.local/bin/otelcol-confmap-promotion"
 mv -f "$HOME/.local/bin/.otelcol-confmap-promotion-vet.new" "$HOME/.local/bin/otelcol-confmap-promotion-vet"
 otelcol-confmap-promotion --help
@@ -209,8 +214,13 @@ test -z "$unsafe_member" || { echo 'archive contains an unsafe member path' >&2;
 extract_dir=$(mktemp -d)
 trap 'rm -rf "$extract_dir"' EXIT HUP INT TERM
 tar -xzf "$archive" -C "$extract_dir"
-"$extract_dir/otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion" version
-"$extract_dir/otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion-vet" version
+expected_cli="$extract_dir/otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion"
+expected_vet="$extract_dir/otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion-vet"
+for expected_binary in "$expected_cli" "$expected_vet"; do
+  test -f "$expected_binary" && test ! -L "$expected_binary" || { echo 'archive binary is not a regular file' >&2; exit 2; }
+done
+"$expected_cli" version
+"$expected_vet" version
 ```
 
 Replace `linux_amd64` with `linux_arm64`, `darwin_amd64`, or `darwin_arm64` for another supported platform. Pin a version or checksum-verified release in CI. Roll back by restoring the prior archive or source version. Uninstall by removing both binaries and their CI step; the tool does not create config, cache, telemetry, or remote state.

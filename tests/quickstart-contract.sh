@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2016
 set -euo pipefail
 
 project_root=$(cd -- "$(dirname -- "$0")/.." && pwd -P)
@@ -15,6 +16,9 @@ grep -Fq "unsafe_member=\$(tar -tzf \"\$archive\" | grep -E" README.md
 grep -Fq "archive contains an unsafe member path" README.md
 grep -Fq "extract_dir=\$(mktemp -d)" README.md
 grep -Fq "tar -xzf \"\$archive\" -C \"\$extract_dir\"" README.md
+grep -Fq 'expected_cli="$extract_dir/otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion"' README.md
+grep -Fq 'expected_vet="$extract_dir/otelcol-confmap-promotion_v0.1.3_linux_amd64/otelcol-confmap-promotion-vet"' README.md
+grep -Fq 'test -f "$expected_binary" && test ! -L "$expected_binary"' README.md
 grep -Fq "mv -f \"\$HOME/.local/bin/.otelcol-confmap-promotion.new\"" README.md
 grep -Fq "mv -f \"\$HOME/.local/bin/.otelcol-confmap-promotion-vet.new\"" README.md
 
